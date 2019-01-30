@@ -161,7 +161,7 @@
 	<dependencySets>
 		<dependencySet>
 			<outputDirectory>jars</outputDirectory>
-			<useProjectArtifact>false</useProjectArtifact>
+			<useProjectArtifact>true</useProjectArtifact>
 			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
 			<scope>runtime</scope>
@@ -240,6 +240,7 @@
 				<!-- Tigase Extras mDNS extension-->
 				<include>org.jmdns:jmdns</include>
 
+				<include>tigase:tigase-server-dist</include>
 			</includes>
 		</dependencySet>
 	</dependencySets>

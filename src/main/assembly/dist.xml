@@ -120,7 +120,7 @@
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
-			<useProjectArtifact>false</useProjectArtifact>
+			<useProjectArtifact>true</useProjectArtifact>
 			<outputDirectory>jars</outputDirectory>
 			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
@@ -139,6 +139,7 @@
 				<!--HTTP API component dependencies-->
 				<include>javax.servlet:javax.servlet-api</include>
 				<include>tigase-http-api-jetty</include>
+				<include>tigase:tigase-server-dist</include>
 			</includes>
 		</dependencySet>
 	</dependencySets>
