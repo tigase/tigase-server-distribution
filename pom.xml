@@ -633,6 +633,7 @@
                         <manifestEntries>
                             <Implementation-Version>${project.version}-b${gitVersion}/${buildNumber}</Implementation-Version>
                             <Implementation-Build>${gitVersion}/${buildNumber} (${maven.build.timestamp})</Implementation-Build>
+                            <Tigase-Version>${project.version}-b${gitVersion}</Tigase-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
