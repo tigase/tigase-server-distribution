@@ -594,6 +594,11 @@
 
                                 <artifactItem>
                                     <groupId>tigase</groupId>
+                                    <artifactId>tigase-workgroupqueues-component</artifactId>
+                                </artifactItem>
+
+                                <artifactItem>
+                                    <groupId>tigase</groupId>
                                     <artifactId>licence-lib</artifactId>
                                 </artifactItem>
 
