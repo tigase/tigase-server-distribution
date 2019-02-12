@@ -911,31 +911,31 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>2.5.2</version>
+            <version>${groovyVersion}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-json</artifactId>
-            <version>2.5.2</version>
+            <version>${groovyVersion}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-jsr223</artifactId>
-            <version>2.5.2</version>
+            <version>${groovyVersion}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-templates</artifactId>
-            <version>2.5.2</version>
+            <version>${groovyVersion}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-xml</artifactId>
-            <version>2.5.2</version>
+            <version>${groovyVersion}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
