@@ -728,13 +728,13 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-muc</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-pubsub</artifactId>
-            <version>4.0.0</version>
+            <version>4.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -818,19 +818,19 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-acs</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-acs-muc</artifactId>
-            <version>2.0.0</version>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-acs-pubsub</artifactId>
-            <version>2.0.0</version>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
