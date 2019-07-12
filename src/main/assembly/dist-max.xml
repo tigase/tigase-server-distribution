@@ -180,6 +180,12 @@
 				<include>org.eclipse.jetty:jetty-server</include>
 				<include>org.eclipse.jetty:jetty-servlet</include>
 				<include>org.eclipse.jetty:jetty-util</include>
+				<include>org.eclipse.jetty.http2:http2-server</include>
+				<include>org.eclipse.jetty.http2:http2-common</include>
+				<include>org.eclipse.jetty.http2:http2-hpack</include>
+				<include>org.eclipse.jetty.alpn:alpn-api</include>
+				<include>org.eclipse.jetty:jetty-alpn-server</include>
+				<include>org.eclipse.jetty:jetty-alpn-java-server</include>
 				<!--<include>org.eclipse.jetty:jetty-webapp</include>-->
 				<!--<include>org.eclipse.jetty:jetty-xml</include>-->
 				<!--<include>org.eclipse.jetty.osgi:jetty-osgi-boot</include>-->
@@ -203,15 +209,6 @@
                 <include>org.bouncycastle:bctls-jdk15on</include>
                 <include>org.bouncycastle:bcprov-jdk15on</include>
                 <include>org.bouncycastle:bcpkix-jdk15on</include>
-
-				<!-- Tigase Push - APNs-->
-				<include>com.notnoop.apns:apns</include>
-				<include>commons-httpclient:commons-httpclient:</include>
-				<include>commons-logging:commons-logging</include>
-				<include>commons-codec:commons-codec</include>
-				<include>com.fasterxml.jackson.core:jackson-databind</include>
-				<include>com.fasterxml.jackson.core:jackson-annotations</include>
-				<include>com.fasterxml.jackson.core:jackson-core</include>
 
 				<!-- Tigase Push - FCM-->
 				<include>tigase:jaxmpp-core</include>
