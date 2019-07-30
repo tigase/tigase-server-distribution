@@ -734,7 +734,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-pubsub</artifactId>
-            <version>4.0.0</version>
+            <version>4.0.1-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
