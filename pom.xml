@@ -713,7 +713,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-server</artifactId>
-            <version>8.0.0</version>
+            <version>8.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
