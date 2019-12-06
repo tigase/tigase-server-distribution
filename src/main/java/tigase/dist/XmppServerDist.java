@@ -1,4 +1,4 @@
-/**
+/*
  * Tigase XMPP Server Distribution - bootstrap configuration for all Tigase projects
  * Copyright (C) 2004 Tigase, Inc. (office@tigase.com)
  *
