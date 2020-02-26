@@ -123,6 +123,11 @@
                                             </directory>
                                             <targetPath>${admin_guide_path}/html/images</targetPath>
                                         </resource>
+                                        <resource>
+                                            <directory>${docu_build_path}/tigase-server/documentation/admin/files
+                                            </directory>
+                                            <targetPath>${admin_guide_path}/html/files</targetPath>
+                                        </resource>
                                     </resources>
                                 </configuration>
                             </execution>
@@ -148,6 +153,11 @@
                                             </directory>
                                             <targetPath>${dev_guide_path}/html/images</targetPath>
                                         </resource>
+                                        <resource>
+                                            <directory>${docu_build_path}/tigase-server/documentation/devguide/files
+                                            </directory>
+                                            <targetPath>${dev_guide_path}/html/files</targetPath>
+                                        </resource>
                                     </resources>
                                 </configuration>
                             </execution>
@@ -167,6 +177,11 @@
                                             <directory>${docu_build_path}/tigase-server/documentation/admin/images
                                             </directory>
                                             <targetPath>${project.build.directory}/docbook-admin/images</targetPath>
+                                        </resource>
+                                        <resource>
+                                            <directory>${docu_build_path}/tigase-server/documentation/admin/files
+                                            </directory>
+                                            <targetPath>${project.build.directory}/docbook-admin/files</targetPath>
                                         </resource>
                                     </resources>
                                     <doctype>book</doctype>
@@ -195,6 +210,11 @@
                                             <directory>${docu_build_path}/tigase-server/documentation/devguide/images
                                             </directory>
                                             <targetPath>${project.build.directory}/docbook-devguide/images</targetPath>
+                                        </resource>
+                                        <resource>
+                                            <directory>${docu_build_path}/tigase-server/documentation/devguide/files
+                                            </directory>
+                                            <targetPath>${project.build.directory}/docbook-devguide/files</targetPath>
                                         </resource>
                                     </resources>
                                     <doctype>book</doctype>
@@ -226,6 +246,9 @@
                                         <copy todir="${admin_guide_path}/webhelp/images">
                                             <fileset dir="${docu_build_path}/tigase-server/documentation/admin/images" />
                                             <fileset dir="${docu_build_path}/tigase-http-api/documentation/images" />
+                                        </copy>
+                                        <copy todir="${admin_guide_path}/webhelp/files">
+                                            <fileset dir="${docu_build_path}/tigase-server/documentation/admin/files" />
                                         </copy>
                                     </postProcess>
                                 </configuration>
@@ -286,7 +309,7 @@
                                             <fileset dir="${docu_build_path}/tigase-server/documentation/devguide/images" />
                                             <fileset dir="${docu_build_path}/tigase-http-api/documentation/images" />
                                         </copy>
-                                        <copy todir="${admin_guide_path}/html_chunk/files">
+                                        <copy todir="${dev_guide_path}/html_chunk/files">
                                             <fileset dir="${docu_build_path}/tigase-server/documentation/devguide/files" />
                                         </copy>
                                     </postProcess>
@@ -335,6 +358,9 @@
                                         <copy todir="${dev_guide_path}/html_chunk/images">
                                             <fileset dir="${docu_build_path}/tigase-server/documentation/devguide/images" />
                                             <fileset dir="${docu_build_path}/tigase-http-api/documentation/images" />
+                                        </copy>
+                                        <copy todir="${dev_guide_path}/html_chunk/files">
+                                            <fileset dir="${docu_build_path}/tigase-server/documentation/devguide/files" />
                                         </copy>
                                     </postProcess>
                                 </configuration>
