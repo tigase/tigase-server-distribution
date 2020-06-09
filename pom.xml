@@ -460,7 +460,7 @@
                             <stripVersion>true</stripVersion>
                             <excludeTransitive>false</excludeTransitive>
                             <overWriteIfNewer>true</overWriteIfNewer>
-                            <overWriteReleases>true&gt;</overWriteReleases>
+                            <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>

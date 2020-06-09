@@ -22,7 +22,7 @@ import java.util.zip.ZipFile
 String root = System.getProperty("user.dir");
 
 def jarDir = "./target/dist/jars/"
-def tigaseLibraries = Paths.get(root, jarDir).toFile().listFiles(new FileFilter() {
+def tigaseLibraries = Paths.get(root, jarDir)?.toFile()?.listFiles(new FileFilter() {
 
 	@Override
 	boolean accept(File pathname) {
@@ -34,6 +34,8 @@ def tigaseLibraries = Paths.get(root, jarDir).toFile().listFiles(new FileFilter(
 
 AtomicInteger build = new AtomicInteger(0);
 
+log.info("Found ${tigaseLibraries?.length} libraries")
+
 tigaseLibraries.each { file ->
 	def zipFile = new ZipFile(file)
 	def entry = zipFile.getEntry("META-INF/MANIFEST.MF")
@@ -43,9 +45,10 @@ tigaseLibraries.each { file ->
 	if (implementationBuild != null) {
 		def buildNumber = implementationBuild.replaceAll("Implementation-Build: (\\d+)/.*", "\$1")
 		try {
+			log.info("Adding version: ${buildNumber} \timplementation: ${implementationBuild}, source ${file.getName()}")
 			build.addAndGet(Integer.valueOf(buildNumber))
 		} catch (NumberFormatException e) {
-			log.warn("Wrong format for: " + file.toPath().getFileName().toString() + ": " + buildNumber)
+			log.warn("Wrong format for: ${file.toPath().getFileName().toString()}: ${buildNumber}")
 		}
 	}
 }
