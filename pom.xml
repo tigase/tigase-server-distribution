@@ -639,6 +639,11 @@
 
                                 <artifactItem>
                                     <groupId>tigase</groupId>
+                                    <artifactId>tigase-mix</artifactId>
+                                </artifactItem>
+
+                                <artifactItem>
+                                    <groupId>tigase</groupId>
                                     <artifactId>tigase-auditlog</artifactId>
                                 </artifactItem>
 
@@ -775,7 +780,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-server</artifactId>
-            <version>8.1.0</version>
+            <version>8.2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
@@ -786,7 +791,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-pubsub</artifactId>
-            <version>4.1.0</version>
+            <version>5.0.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -864,6 +869,12 @@
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
+            <artifactId>tigase-mix</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>tigase</groupId>
             <artifactId>tigase-workgroupqueues-component</artifactId>
             <version>1.1.0</version>
         </dependency>
@@ -882,7 +893,13 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-acs-pubsub</artifactId>
-            <version>2.1.0</version>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>tigase</groupId>
+            <artifactId>tigase-acs-mix</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
