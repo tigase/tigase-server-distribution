@@ -17,7 +17,7 @@
     </parent>
 
     <artifactId>tigase-server-dist</artifactId>
-    <version>8.1.0</version>
+    <version>8.1.1-SNAPSHOT</version>
 
     <name>Tigase XMPP Server Distribution</name>
 
