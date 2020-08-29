@@ -145,9 +145,9 @@
 			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
 			<unpack>false</unpack>
 			<scope>runtime</scope>
-			<!--			<excludes>
-				<exclude>junit:junit</exclude>
-			</excludes>-->
+<!--			<excludes>-->
+<!--				<exclude>junit:junit</exclude>-->
+<!--			</excludes>-->
 			<includes>
 				<!--database libraries-->
 				<include>org.apache.derby:derby</include>
@@ -158,13 +158,7 @@
 				<include>org.mongodb:mongo-java-driver</include>
 				
 				<!-- other libraries-->
-				<include>org.codehaus.groovy:groovy</include>
-				<include>org.codehaus.groovy:groovy-json</include>
-				<include>org.codehaus.groovy:groovy-jsr223</include>
-				<include>org.codehaus.groovy:groovy-templates</include>
-				<include>org.codehaus.groovy:groovy-xml</include>
 				<include>openDMK:jdmkrt</include>
-				<include>org.hamcrest:hamcrest-core</include>
 				<include>org.slf4j:slf4j-api</include>
 				<include>org.slf4j:jul-to-slf4j</include>
 				<include>de.javawi:jstun</include>
@@ -191,12 +185,6 @@
 				<!--<include>org.eclipse.jetty.osgi:jetty-osgi-boot</include>-->
 
 				<!--OSGi dependencies-->
-				<include>org.osgi:org.osgi.core</include>
-				<include>org.apache.felix:org.apache.felix.bundlerepository</include>
-				<include>org.apache.felix:org.apache.felix.configadmin</include>
-				<include>org.apache.felix:org.apache.felix.main</include>
-				<include>org.apache.felix:org.apache.felix.shell</include>
-				<include>org.apache.felix:org.apache.felix.shell.remote</include>
 				<include>ch.qos.logback:logback-classic</include>
 				<include>ch.qos.logback:logback-core</include>
 
@@ -220,5 +208,35 @@
 				<include>tigase:tigase-server-dist</include>
 			</includes>
 		</dependencySet>
+		<dependencySet>
+			<outputDirectory>jars</outputDirectory>
+			<useProjectArtifact>true</useProjectArtifact>
+			<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+			<unpack>false</unpack>
+			<scope>provided</scope>
+<!--			<excludes>-->
+<!--				<exclude>junit:junit</exclude>-->
+<!--			</excludes>-->
+			<includes>
+				<!--other libraries-->
+				<include>org.codehaus.groovy:groovy</include>
+				<include>org.codehaus.groovy:groovy-json</include>
+				<include>org.codehaus.groovy:groovy-jsr223</include>
+				<include>org.codehaus.groovy:groovy-templates</include>
+				<include>org.codehaus.groovy:groovy-xml</include>
+				<include>org.hamcrest:hamcrest-core</include>
+
+				<!--OSGi dependencies-->
+				<include>org.osgi:org.osgi.core</include>
+				<include>org.apache.felix:org.apache.felix.bundlerepository</include>
+				<include>org.apache.felix:org.apache.felix.configadmin</include>
+				<include>org.apache.felix:org.apache.felix.main</include>
+				<include>org.apache.felix:org.apache.felix.shell</include>
+				<include>org.apache.felix:org.apache.felix.shell.remote</include>
+
+				<include>tigase:tigase-server-dist</include>
+			</includes>
+		</dependencySet>
+
 	</dependencySets>
 </assembly>

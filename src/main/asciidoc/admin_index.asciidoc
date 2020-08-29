@@ -13,7 +13,7 @@ v{revnumber}, {localdate}
 
 include::../../../target/documentation/tigase-server/documentation/admin/index.asciidoc[]
 
-include::../../../target/documentation/tigase-extras/documentation/index.asciidoc[leveloffset=+1]
+include::../../../target/documentation/tigase-extras-mdns/documentation/index.asciidoc[leveloffset=+1]
 
 include::../../../target/documentation/tigase-acs/documentation/index.asciidoc[leveloffset=+1]
 
