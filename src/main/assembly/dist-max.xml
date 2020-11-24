@@ -205,6 +205,26 @@
 				<!-- Tigase Extras mDNS extension-->
 				<include>org.jmdns:jmdns</include>
 
+				<!-- AWS / s3 http-upload + cloudwatch -->
+				<include>com.amazonaws:aws-java-sdk-s3</include>
+				<include>com.amazonaws:aws-java-sdk-kms</include>
+				<include>com.amazonaws:aws-java-sdk-core</include>
+				<include>commons-logging:commons-logging</include>
+				<include>org.apache.httpcomponents:httpclient</include>
+				<include>org.apache.httpcomponents:httpcore</include>
+				<include>commons-codec:commons-codec</include>
+				<include>software.amazon.ion:ion-java</include>
+				<include>com.fasterxml.jackson.core:jackson-databind</include>
+				<include>com.fasterxml.jackson.core:jackson-annotations</include>
+				<include>com.fasterxml.jackson.core:jackson-core</include>
+				<include>com.fasterxml.jackson.dataformat:jackson-dataformat-cbor</include>
+				<include>joda-time:joda-time</include>
+				<include>com.amazonaws:jmespath-java</include>
+				<include>ca.pjer:logback-awslogs-appender</include>
+				<include>com.amazonaws:aws-java-sdk-logs</include>
+				<include>javax.xml.bind:jaxb-api</include>
+
+
 				<include>tigase:tigase-server-dist</include>
 			</includes>
 		</dependencySet>
