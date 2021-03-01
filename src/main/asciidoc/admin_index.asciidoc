@@ -25,6 +25,8 @@ include::../../../target/documentation/tigase-message-archiving/documentation/in
 
 include::../../../target/documentation/tigase-pubsub/documentation/index.asciidoc[leveloffset=+1]
 
+include::../../../target/documentation/tigase-mix/documentation/index.asciidoc[leveloffset=+1]
+
 include::../../../target/documentation/tigase-muc/documentation/index.asciidoc[leveloffset=+1]
 
 include::../../../target/documentation/tigase-socks5/documentation/index.asciidoc[leveloffset=+1]

@@ -501,6 +501,12 @@
 
                                 <artifactItem>
                                     <groupId>tigase</groupId>
+                                    <artifactId>tigase-mix</artifactId>
+                                    <outputDirectory>${docu_build_path}/tigase-mix</outputDirectory>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>tigase</groupId>
                                     <artifactId>tigase-message-archiving</artifactId>
                                     <outputDirectory>${docu_build_path}/tigase-message-archiving</outputDirectory>
                                 </artifactItem>
