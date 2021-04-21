@@ -843,7 +843,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>licence-lib</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
