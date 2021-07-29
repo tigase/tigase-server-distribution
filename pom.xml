@@ -937,7 +937,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
+            <version>5.1.49</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -1121,7 +1121,7 @@
     <repositories>
         <repository>
             <id>tigase</id>
-            <url>http://maven-repo.tigase.org/repository/tigase</url>
+            <url>https://maven-repo.tigase.org/repository/tigase</url>
         </repository>
     </repositories>
 </project>
