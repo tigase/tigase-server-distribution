@@ -1,10 +1,7 @@
 = Tigase Development Guide
 Tigase Team <team@tigase.com>
-:toc:
+v{revnumber}, {localdate}
 :numbered:
-:website: http://tigase.net
-:no title:
-:no author:
 
 include::../../../target/documentation/tigase-server/documentation/devguide/index.asciidoc[leveloffset=+1]
 

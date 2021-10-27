@@ -196,9 +196,9 @@
                             <execution>
                                 <id>output-docbook-dev</id>
                                 <phase>${documentation_phases.docbook}</phase>
-                                <goals>
-                                    <goal>process-asciidoc</goal>
-                                </goals>
+<!--                                <goals>-->
+<!--                                    <goal>process-asciidoc</goal>-->
+<!--                                </goals>-->
                                 <configuration>
                                     <sourceDocumentName>${dev_guide_filename}.asciidoc</sourceDocumentName>
                                     <outputFile>${project.build.directory}/docbook-devguide/index.xml</outputFile>
@@ -258,9 +258,11 @@
                             <execution>
                                 <id>generate-pdf</id>
                                 <phase>${documentation_phases.pdf}</phase>
+                                <goals>
+                                    <goal>generate-pdf</goal>
+                                </goals>
                                 <configuration>
-                                    <targetDirectory>${project.build.directory}/pdf/${admin_guide_filename}/
-                                    </targetDirectory>
+                                    <targetDirectory>${project.build.directory}/pdf/${admin_guide_filename}/</targetDirectory>
                                     <imgSrcPath>${project.build.directory}/docbook-admin/</imgSrcPath>
                                     <sourceDirectory>${project.build.directory}/docbook-admin/</sourceDirectory>
                                     <ignoreImageScaling>true</ignoreImageScaling>
@@ -274,6 +276,9 @@
                             <execution>
                                 <id>generate-html</id>
                                 <phase>${documentation_phases.html_chunked}</phase>
+                                <goals>
+                                    <goal>generate-html</goal>
+                                </goals>
                                 <configuration>
                                     <targetDirectory>${admin_guide_path}/html_chunk/</targetDirectory>
                                     <outputFile>${admin_guide_path}/html_chunk/index.html</outputFile>
@@ -300,9 +305,9 @@
                                     <goal>generate-webhelp</goal>
                                 </goals>
                                 <configuration>
-                                    <targetDirectory>${dev_guide_path}/webhelp/</targetDirectory>
-                                    <outputFile>${dev_guide_path}/webhelp/index.html</outputFile>
-                                    <sourceDirectory>${project.build.directory}/docbook-devguide/</sourceDirectory>
+                                    <targetDirectory>${dev_guide_path}/docbook-webhelp/</targetDirectory>
+                                    <outputFile>${dev_guide_path}/webhelp/</outputFile>
+                                    <sourceDirectory>${project.build.directory}/webhelp/</sourceDirectory>
                                     <postProcess>
                                         <copy todir="${dev_guide_path}/webhelp/css">
                                             <fileset dir="src/main/asciidoc/css" />
@@ -325,13 +330,12 @@
                                     <goal>generate-pdf</goal>
                                 </goals>
                                 <configuration>
-                                    <targetDirectory>${project.build.directory}/pdf/${dev_guide_filename}
-                                    </targetDirectory>
+                                    <targetDirectory>${project.build.directory}/pdf/${dev_guide_filename}/</targetDirectory>
                                     <imgSrcPath>${project.build.directory}/docbook-devguide/</imgSrcPath>
-                                    <ignoreImageScaling>false</ignoreImageScaling>
+                                    <sourceDirectory>${project.build.directory}/docbook-devguide/</sourceDirectory>
+                                    <ignoreImageScaling>true</ignoreImageScaling>
                                     <!--Values are: OFF,FATAL,ERROR,WARN,INFO,DEBUG,TRACE,ALL Default is: WARN-->
                                     <fopLogLevel>OFF</fopLogLevel>
-                                    <sourceDirectory>${project.build.directory}/docbook-devguide/</sourceDirectory>
                                     <postProcess>
                                         <move failonerror="false" file="${project.build.directory}/pdf/${dev_guide_filename}/index.pdf" tofile="${dev_guide_path}/pdf/${guide_name}_Guide.pdf" />
                                     </postProcess>
@@ -344,15 +348,9 @@
                                     <goal>generate-html</goal>
                                 </goals>
                                 <configuration>
-                                    <chunkedOutput>true</chunkedOutput>
-                                    <sourceDirectory>${project.build.directory}/docbook-devguide/</sourceDirectory>
                                     <targetDirectory>${dev_guide_path}/html_chunk/</targetDirectory>
                                     <outputFile>${dev_guide_path}/html_chunk/index.html</outputFile>
-                                    <targetsFilename>true</targetsFilename>
-                                    <useIdAsFilename>true</useIdAsFilename>
-                                    <cssDecoration>true</cssDecoration>
-                                    <annotationCss>true</annotationCss>
-                                    <htmlStylesheet>css/docbook-xsl.css</htmlStylesheet>
+                                    <sourceDirectory>${project.build.directory}/docbook-devguide/</sourceDirectory>
                                     <postProcess>
                                         <copy todir="${dev_guide_path}/html_chunk/css">
                                             <fileset dir="src/main/asciidoc/css" />
