@@ -10,6 +10,7 @@
         <license.inlineHeader>${inlineHeader_agpl3}</license.inlineHeader>
         <documentation_phases.all_converters>generate-resources</documentation_phases.all_converters>
         <tigase-extras-version>2.2.0-SNAPSHOT</tigase-extras-version>
+        <documentation_phases.webhelp>none</documentation_phases.webhelp>
     </properties>
 
     <parent>
@@ -37,7 +38,7 @@
             <id>kobit</id>
             <name>Artur Hefczyc</name>
             <email>kobit@tigase.net</email>
-            <url>http://www.tigase.net/</url>
+            <url>https://www.tigase.net/</url>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -61,7 +62,7 @@
 
     <organization>
         <name>"Tigase, Inc."</name>
-        <url>http://www.tigase.net</url>
+        <url>https://www.tigase.net</url>
     </organization>
 
     <profiles>
