@@ -432,7 +432,7 @@
                         </goals>
                         <configuration>
                             <descriptors>
-                                <descriptor>src/main/assembly/dist-free.xml</descriptor>
+                                <descriptor>src/main/assembly/dist.xml</descriptor>
                                 <descriptor>src/main/assembly/dist-enterprise.xml</descriptor>
                             </descriptors>
                             <tarLongFileMode>gnu</tarLongFileMode>
