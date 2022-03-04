@@ -980,19 +980,18 @@
             <version>1.1.0</version>
         </dependency>
 
-<!--        DON'T include meet in 8.2-->
-<!--        <dependency>-->
-<!--            <groupId>tigase</groupId>-->
-<!--            <artifactId>tigase-meet</artifactId>-->
-<!--            <version>1.0.0-SNAPSHOT</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>tigase</groupId>-->
-<!--            <artifactId>tigase-acs-meet</artifactId>-->
-<!--            <version>1.0.0-SNAPSHOT</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>tigase</groupId>
+            <artifactId>tigase-meet</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>tigase</groupId>
+            <artifactId>tigase-acs-meet</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
         
         <!--databases-->
         <dependency>
