@@ -1030,7 +1030,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4.1207</version>
+            <version>42.3.3</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
