@@ -19,7 +19,7 @@
     </parent>
 
     <artifactId>tigase-server-dist</artifactId>
-    <version>8.2.0</version>
+    <version>8.2.1-SNAPSHOT</version>
 
     <name>Tigase XMPP Server Distribution</name>
 
