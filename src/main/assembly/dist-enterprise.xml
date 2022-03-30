@@ -152,6 +152,7 @@
 				<!--database libraries-->
 				<include>org.apache.derby:derby</include>
 				<include>org.apache.derby:derbytools</include>
+				<include>org.apache.derby:derbyshared</include>
 				<include>mysql:mysql-connector-java</include>
 				<include>org.postgresql:postgresql</include>
 				<include>net.sourceforge.jtds:jtds</include>
