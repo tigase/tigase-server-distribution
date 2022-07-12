@@ -163,7 +163,7 @@
 				<include>org.apache.derby:derbyshared</include>
 				<include>mysql:mysql-connector-java</include>
 				<include>org.postgresql:postgresql</include>
-				<include>net.sourceforge.jtds:jtds</include>
+				<include>com.microsoft.sqlserver:mssql-jdbc</include>
 				<include>org.mongodb:mongo-java-driver</include>
 
 				<!-- other libraries-->
