@@ -53,6 +53,12 @@ tigaseLibraries.each { file ->
 	}
 }
 
+buildVersionFile = Paths.get(root, "target", "build-version").toFile()
+if (!buildVersionFile.exists()) {
+	buildVersionFile.createNewFile()
+}
+buildVersionFile.write("b${build}")
+
 log.info("setting revision to: " + build)
 project.properties.setProperty('gitVersion', build.toString())
 
