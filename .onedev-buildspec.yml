@@ -1,0 +1,162 @@
+version: 17
+jobs:
+  - name: nightly
+    steps:
+      - !CheckoutStep
+        name: checkout
+        cloneCredential: !DefaultCredential {}
+        withLfs: false
+        withSubmodules: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !CommandStep
+        name: detect build version
+        runInContainer: true
+        image: maven:3-eclipse-temurin-17
+        interpreter: !DefaultInterpreter
+          commands:
+            - echo "Detecting project version (may require some time while downloading maven
+              dependencies)..."
+            - echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version
+              -q -DforceStdout) > buildVersion
+            - echo $(date +%Y-%m-%d) > todaysDate
+        useTTY: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !CommandStep
+        name: maven build & deploy
+        runInContainer: true
+        image: tigase/tigase-maven-docker:3-temurin-17
+        interpreter: !DefaultInterpreter
+          commands:
+            - mvn -version
+            - mvn -Pdist -Dtigase.internalrepo.username=@secret:maven-deploy-username@ -Dtigase.internalrepo.password=@secret:maven-deploy-password@
+              clean test deploy
+            - ''
+            - ''
+            - ls -lah
+            - ls -lah target
+        useTTY: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !SetBuildVersionStep
+        name: set build version
+        buildVersion: '@file:buildVersion@-@file:target/build-version@'
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !CommandStep
+        name: publish to s3
+        runInContainer: true
+        image: tigase/devops-1dev-builder-image:latest
+        interpreter: !DefaultInterpreter
+          commands:
+            - '#set -x'
+            - export AWS_ACCESS_KEY_ID=@secret:aws-access-key-id@
+            - export AWS_SECRET_ACCESS_KEY=@secret:aws-secret-access-key@
+            - export AWS_DEFAULT_REGION=@secret:aws-default-region@
+            - ''
+            - ''
+            - export DIST_URL_ROOT=s3://build.tigase.net-new
+            - export DIST_DIR=${DIST_URL_ROOT}/nightlies/dists-1dev
+            - ''
+            - SOURCE_DIR=target/_dist
+            - COMPONENT=tigase-server
+            - ''
+            - export DATE=$(date +%Y-%m-%d)
+            - VERSION=@file:buildVersion@
+            - ''
+            - ls -lah
+            - ls -lah target
+            - ''
+            - BUILD_VERSION=@file:target/build-version@
+            - ''
+            - aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/
+              --recursive --exclude="*" --include="${COMPONENT}-*"
+            - ''
+            - git remote update
+            - git fetch
+            - ''
+            - GIT_HEAD="$(git rev-parse 'HEAD')"
+            - GIT_ORIGIN_MASTER="$(git rev-parse 'origin/master')"
+            - ''
+            - 'echo "GIT_HEAD: ${GIT_HEAD}"'
+            - 'echo "GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}"'
+            - ''
+            - ''
+            - if [ "${GIT_HEAD}" = "${GIT_ORIGIN_MASTER}" ] ; then
+            - "\techo \"master build, setting up 'latest' links for nightlies\""
+            - "\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;"
+            - "\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\\
+        /$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");"
+            - "\tdone"
+            - fi
+            - ''
+            - '#set +x'
+        useTTY: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !PublishArtifactStep
+        name: Publish artifacts
+        sourcePath: target/_dist/
+        artifacts: '*'
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    triggers:
+      - !BranchUpdateTrigger {}
+      - !ScheduleTrigger
+        cronExpression: 0 0 01 * * ?
+    retryCondition: never
+    maxRetries: 3
+    retryDelay: 30
+    cpuRequirement: 250
+    memoryRequirement: 256
+    caches:
+      - key: maven-cache
+        path: /root/.m2/repository
+    timeout: 3600
+  - name: Push to GitHub
+    steps:
+      - !PushRepository
+        name: Push to GitHub
+        remoteUrl: https://github.com/tigase/tigase-server-distribution.git
+        passwordSecret: access-token
+        withLfs: false
+        force: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    retryCondition: never
+    maxRetries: 3
+    retryDelay: 30
+    cpuRequirement: 250
+    memoryRequirement: 256
+    timeout: 3600
+  - name: GA-Release
+    steps:
+      - !CheckoutStep
+        name: checkout
+        cloneCredential: !DefaultCredential {}
+        withLfs: false
+        withSubmodules: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !CommandStep
+        name: detect build version
+        runInContainer: true
+        image: maven:3-eclipse-temurin-17
+        interpreter: !DefaultInterpreter
+          commands:
+            - echo "Detecting project version (may require some time while downloading maven
+              dependencies)..."
+            - echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version
+              -q -DforceStdout) > buildVersion
+        useTTY: false
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !SetBuildVersionStep
+        name: set build version
+        buildVersion: '@file:buildVersion@-@file:target/build-version@'
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+      - !PublishArtifactStep
+        name: Publish artifacts
+        artifacts: '*'
+        condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    triggers:
+      - !TagCreateTrigger
+        tags: tigase-server*
+    retryCondition: never
+    maxRetries: 3
+    retryDelay: 30
+    cpuRequirement: 250
+    memoryRequirement: 256
+    timeout: 3600
