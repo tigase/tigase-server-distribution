@@ -1,8 +1,0 @@
-= Tigase Development Guide
-Tigase Team <team@tigase.com>
-v{revnumber}, {localdate}
-:numbered:
-
-include::../../../target/documentation/tigase-server/documentation/devguide/index.asciidoc[leveloffset=+1]
-
-include::../../../target/documentation/tigase-http-api/documentation/devlink.asciidoc[leveloffset=+1]
