@@ -8,7 +8,7 @@
         <docu_build_path>${project.build.directory}/documentation</docu_build_path>
 
         <license.inlineHeader>${inlineHeader_agpl3}</license.inlineHeader>
-        <documentation_phases.all_converters>generate-resources</documentation_phases.all_converters>
+        <documentation_phases.all_converters>none</documentation_phases.all_converters>
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
     </properties>
 
