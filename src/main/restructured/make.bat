@@ -1,5 +1,5 @@
 @REM
-@REM Tigase XMPP Server - The instant messaging server
+@REM Tigase XMPP Server Distribution - bootstrap configuration for all Tigase projects
 @REM Copyright (C) 2004 Tigase, Inc. (office@tigase.com)
 @REM
 @REM This program is free software: you can redistribute it and/or modify

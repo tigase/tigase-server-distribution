@@ -1,5 +1,5 @@
 #
-# Tigase XMPP Server - The instant messaging server
+# Tigase XMPP Server Distribution - bootstrap configuration for all Tigase projects
 # Copyright (C) 2004 Tigase, Inc. (office@tigase.com)
 #
 # This program is free software: you can redistribute it and/or modify
