@@ -157,6 +157,8 @@
 				<include>org.postgresql:postgresql</include>
 				<include>com.microsoft.sqlserver:mssql-jdbc</include>
 				<include>org.mongodb:mongodb-driver-sync</include>
+				<include>org.mongodb:bson</include>
+				<include>org.mongodb:mongodb-driver-core</include>
 				
 				<!-- other libraries-->
 				<include>openDMK:jdmkrt</include>
