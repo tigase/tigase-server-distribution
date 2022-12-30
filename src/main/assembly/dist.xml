@@ -164,7 +164,7 @@
 				<include>mysql:mysql-connector-java</include>
 				<include>org.postgresql:postgresql</include>
 				<include>com.microsoft.sqlserver:mssql-jdbc</include>
-				<include>org.mongodb:mongo-java-driver</include>
+				<include>org.mongodb:mongodb-driver-sync</include>
 
 				<!-- other libraries-->
 				<include>openDMK:jdmkrt</include>
