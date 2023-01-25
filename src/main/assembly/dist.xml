@@ -101,7 +101,8 @@
 				<include>**/*</include>
 			</includes>
 			<excludes>
-				<exclude></exclude>
+				<exclude>**/admin/RetrieveCodeForLicence.groovy</exclude>
+				<exclude>**/admin/ForceLicenceRetrieval.groovy</exclude>
 			</excludes>
 			<fileMode>0744</fileMode>
 			<directoryMode>0744</directoryMode>
@@ -111,7 +112,6 @@
 			<outputDirectory>jars</outputDirectory>
 			<includes>
 				<include>**/tigase-*</include>
-				<include>**/licence-lib*</include>
 			</includes>
 			<excludes>
 				<exclude>**/licence-lib*</exclude>
