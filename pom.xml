@@ -1004,7 +1004,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-meet</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
