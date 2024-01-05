@@ -181,7 +181,9 @@ jobs:
       - ''
       - BUILD_VERSION=@file:target/build-version@
       - ''
-      - aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude="*" --include="${COMPONENT}-*"
+      - '# Restored original naming convention'
+      - aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}/ --recursive --exclude="*" --include="${COMPONENT}-*"
+      - '#aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude="*" --include="${COMPONENT}-*"'
       - ''
       - '#git remote update'
       - '#git fetch'
