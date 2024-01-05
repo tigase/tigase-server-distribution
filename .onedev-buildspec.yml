@@ -168,7 +168,7 @@ jobs:
       - ''
       - ''
       - export DIST_URL_ROOT=s3://build.tigase.net-new
-      - export DIST_DIR=${DIST_URL_ROOT}/nightlies/dists-1dev
+      - export DIST_DIR=${DIST_URL_ROOT}/nightlies/dists
       - ''
       - SOURCE_DIR=target/_dist
       - COMPONENT=tigase-server
