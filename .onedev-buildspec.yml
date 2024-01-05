@@ -193,11 +193,12 @@ jobs:
       - '#echo "GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}"'
       - '#'
       - ''
+      - '# Let''s assume this job will be run only on master branch'
       - '#if [ "${GIT_HEAD}" = "${GIT_ORIGIN_MASTER}" ] ; then'
-      - "#\techo \"master build, setting up 'latest' links for nightlies\""
-      - "#\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;"
-      - "#\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");"
-      - "#\tdone"
+      - "\techo \"master build, setting up 'latest' links for nightlies\""
+      - "\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;"
+      - "\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");"
+      - "\tdone"
       - '#fi'
       - ''
       - '#set +x'
@@ -211,4 +212,7 @@ jobs:
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
+  caches:
+  - key: maven-cache
+    path: /root/.m2/repository
   timeout: 3600
