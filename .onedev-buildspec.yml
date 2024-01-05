@@ -202,7 +202,12 @@ jobs:
       - ''
       - '#set +x'
     useTTY: false
-    condition: NEVER
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !PublishArtifactStep
+    name: Publish artifacts
+    sourcePath: target/_dist/
+    artifacts: '*'
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
