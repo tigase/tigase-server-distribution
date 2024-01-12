@@ -12,6 +12,7 @@
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
         <jib.from.image>tigase/tigase-xmpp-server-base:17</jib.from.image>
         <jib.to.repository>tigase/tigase-xmpp-server</jib.to.repository>
+        <dist-container-dir>${project.build.directory}/_dist-container/</dist-container-dir>
     </properties>
 
     <parent>
@@ -376,14 +377,14 @@
         <profile>
             <id>build-container-image-free</id>
             <properties>
-                <jib.image.src>${dist-dir}/tigase-server-dist/tigase-server</jib.image.src>
+                <jib.image.src>${dist-container-dir}/tigase-server-dist/tigase-server</jib.image.src>
                 <jib.to.tag>nightly</jib.to.tag>
             </properties>
         </profile>
         <profile>
             <id>build-container-image-enterprise</id>
             <properties>
-                <jib.image.src>${dist-dir}/tigase-server-dist-enterprise/tigase-server</jib.image.src>
+                <jib.image.src>${dist-container-dir}/tigase-server-dist-enterprise/tigase-server</jib.image.src>
                 <jib.to.tag>nightly-enterprise</jib.to.tag>
             </properties>
         </profile>
@@ -584,7 +585,7 @@
                             </formats>
                             <tarLongFileMode>gnu</tarLongFileMode>
                             <finalName>tigase-server</finalName>
-                            <outputDirectory>${dist-dir}</outputDirectory>
+                            <outputDirectory>${dist-container-dir}</outputDirectory>
                             <appendAssemblyId>true</appendAssemblyId>
                         </configuration>
                     </execution>
