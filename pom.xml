@@ -10,6 +10,8 @@
         <license.inlineHeader>${inlineHeader_agpl3}</license.inlineHeader>
         <documentation_phases.all_converters>none</documentation_phases.all_converters>
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
+        <jib.from.image>tigase/tigase-xmpp-server-base:17</jib.from.image>
+        <jib.to.repository>tigase/tigase-xmpp-server</jib.to.repository>
     </properties>
 
     <parent>
@@ -372,6 +374,20 @@
             </build>
         </profile>
         <profile>
+            <id>build-container-image-free</id>
+            <properties>
+                <jib.image.src>${dist-dir}/tigase-server-dist/tigase-server</jib.image.src>
+                <jib.to.tag>nightly</jib.to.tag>
+            </properties>
+        </profile>
+        <profile>
+            <id>build-container-image-enterprise</id>
+            <properties>
+                <jib.image.src>${dist-dir}/tigase-server-dist-enterprise/tigase-server</jib.image.src>
+                <jib.to.tag>nightly-enterprise</jib.to.tag>
+            </properties>
+        </profile>
+        <profile>
             <id>generate-readme</id>
             <activation>
                 <os>
@@ -421,6 +437,117 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.2</version>
+                <goals>
+                    <goal>build</goal>
+                </goals>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-layer-filter-extension-maven</artifactId>
+                        <version>0.3.0</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <pluginExtensions>
+                        <pluginExtension>
+                            <implementation>com.google.cloud.tools.jib.maven.extension.layerfilter.JibLayerFilterExtension</implementation>
+                            <configuration implementation="com.google.cloud.tools.jib.maven.extension.layerfilter.Configuration">
+                                <filters>
+                                    <filter>
+                                        <glob>/app/**</glob>
+                                    </filter>
+                                </filters>
+                            </configuration>
+                        </pluginExtension>
+                    </pluginExtensions>
+                    <from>
+                        <image>${jib.from.image}</image>
+                        <platforms>
+                            <platform>
+                                <architecture>arm64</architecture>
+                                <os>linux</os>
+                            </platform>
+                            <platform>
+                                <architecture>amd64</architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
+                    </from>
+                    <to>
+                        <image>${jib.to.repository}:${jib.to.tag}</image>
+                    </to>
+                    <containerizingMode>packaged</containerizingMode>
+                    <container>
+                        <entrypoint>/bin/bash</entrypoint>
+                        <args>
+                            <arg>/start.sh</arg>
+                        </args>
+                        <environment>
+                            <JAVA_HOME>/opt/java/openjdk</JAVA_HOME>
+                            <TIGASE_HOME>/home/tigase/tigase-server</TIGASE_HOME>
+                        </environment>
+                        <ports>
+                            <port>5222</port>
+                            <port>5223</port>
+                            <port>5269</port>
+                            <port>5277</port>
+                            <port>5280</port>
+                            <port>5281</port>
+                            <port>5290</port>
+                            <port>5281</port>
+                            <port>8080</port>
+                            <port>9050</port>
+                            <port>9070</port>
+                        </ports>
+                        <volumes>
+                            <volume>/home/tigase/tigase-server/etc</volume>
+                            <volume>/home/tigase/tigase-server/conf</volume>
+                            <volume>/home/tigase/tigase-server/certs</volume>
+                            <volume>/home/tigase/tigase-server/logs</volume>
+                            <volume>/home/tigase/tigase-server/data</volume>
+                            <volume>/home/tigase/tigase-server/tigasedb</volume>
+                        </volumes>
+                    </container>
+                    <extraDirectories>
+                        <paths>
+                            <path>
+                                <from>${jib.image.src}/database</from>
+                                <into>/home/tigase/tigase-server/database</into>
+                            </path>
+                            <path>
+                                <from>${jib.image.src}/etc</from>
+                                <into>/home/tigase/tigase-server/etc.orig</into>
+                            </path>
+                            <path>
+                                <from>${jib.image.src}/jars</from>
+                                <into>/home/tigase/tigase-server/jars</into>
+                            </path>
+                            <path>
+                                <from>${jib.image.src}/scripts</from>
+                                <into>/home/tigase/tigase-server/scripts</into>
+                            </path>
+                            <path>
+                                <from>src/main/container</from>
+                                <includes>start.sh</includes>
+                            </path>
+                        </paths>
+                        <permissions>
+                            <permission>
+                                <file>/home/tigase/tigase-server/scripts/tigase.sh</file>
+                                <mode>755</mode>
+                            </permission>
+                            <permission>
+                                <file>/start.sh</file>
+                                <mode>755</mode>
+                            </permission>
+                        </permissions>
+                    </extraDirectories>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
@@ -437,6 +564,26 @@
                             </descriptors>
                             <tarLongFileMode>gnu</tarLongFileMode>
                             <finalName>tigase-server-${project.version}-b${gitVersion}</finalName>
+                            <outputDirectory>${dist-dir}</outputDirectory>
+                            <appendAssemblyId>true</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dist-container</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/dist.xml</descriptor>
+                                <descriptor>src/main/assembly/dist-enterprise.xml</descriptor>
+                            </descriptors>
+                            <formats>
+                                <format>dir</format>
+                            </formats>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                            <finalName>tigase-server</finalName>
                             <outputDirectory>${dist-dir}</outputDirectory>
                             <appendAssemblyId>true</appendAssemblyId>
                         </configuration>
