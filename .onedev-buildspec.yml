@@ -69,6 +69,16 @@ jobs:
     sourcePath: target/_dist/
     artifacts: '*'
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: Build container images
+    runInContainer: true
+    image: tigase/tigase-maven-docker:3-temurin-17
+    interpreter: !DefaultInterpreter
+      commands:
+      - mvn jib:build -Pbuild-container-image-free -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
+      - mvn jib:build -Pbuild-container-image-enterprise  -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   triggers:
   - !ScheduleTrigger
     cronExpression: 0 0 1 * * ?
