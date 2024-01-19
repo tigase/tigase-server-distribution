@@ -120,9 +120,9 @@
 				<exclude>**/*unified-archive*</exclude>
 				<exclude>**/*stats-collector*</exclude>
 				<exclude>**/*workgroupqueues*</exclude>
-				<exclude>**/*tigase-meet*</exclude>
 				<exclude>**/*tigase-push*</exclude>
 				<exclude>**/*tigase-acs-meet*</exclude>
+				<exclude>**/*tigase-tags*</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>
