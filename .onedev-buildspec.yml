@@ -85,9 +85,6 @@ jobs:
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
-  caches:
-  - key: maven-cache
-    path: /root/.m2/repository
   timeout: 3600
 - name: Push to GitHub
   steps:
