@@ -169,8 +169,8 @@
 				<!--HTTP API component dependencies-->
 				<include>javax.servlet:javax.servlet-api</include>
 				<include>javax.validation:validation-api</include>
-				<include>jakarta.xml.bind:jakarta.xml.bind.api</include>
-				<include>jakarta.ws.rs:jakarta.ws.rs.api</include>
+				<include>jakarta.xml.bind:jakarta.xml.bind-api</include>
+				<include>jakarta.ws.rs:jakarta.ws.rs-api</include>
 				<include>gg.jte:jte</include>
 				<!--<include>org.eclipse.jetty.orbit:javax.servlet</include>-->
 				<!--<include>org.eclipse.jetty:jetty-continuation</include>-->
