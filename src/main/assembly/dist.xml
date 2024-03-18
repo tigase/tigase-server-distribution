@@ -180,6 +180,8 @@
 				<include>jakarta.xml.bind:jakarta.xml.bind-api</include>
 				<include>jakarta.ws.rs:jakarta.ws.rs-api</include>
 				<include>gg.jte:jte</include>
+				<include>gg.jte:jte-runtime</include>
+				<include>gg.jte:jte-extension-api</include>
 				<!--<include>org.eclipse.jetty.orbit:javax.servlet</include>-->
 				<!--<include>org.eclipse.jetty:jetty-continuation</include>-->
 				<!--<include>org.eclipse.jetty:jetty-deploy</include>-->
