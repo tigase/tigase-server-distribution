@@ -182,6 +182,8 @@
 				<include>gg.jte:jte</include>
 				<include>gg.jte:jte-runtime</include>
 				<include>gg.jte:jte-extension-api</include>
+				<include>com.google.zxing:core</include>
+				<include>com.google.zxing:javase</include>
 				<!--<include>org.eclipse.jetty.orbit:javax.servlet</include>-->
 				<!--<include>org.eclipse.jetty:jetty-continuation</include>-->
 				<!--<include>org.eclipse.jetty:jetty-deploy</include>-->
