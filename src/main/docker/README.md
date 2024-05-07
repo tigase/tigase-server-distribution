@@ -243,7 +243,7 @@ The simplest and easiest way to start complete Tigase XMPP Server with database 
 To start that way, get the latest [docker-compose.yml](https://tigase.dev/tigase/_server/tigase-server/~raw/master/src/main/docker/docker-compose.yml?disposition=ATTACHMENT) from the repository:
 
 ```shell
-wget https://tigase.dev/tigase/_server/tigase-server/~raw/master/src/main/docker/docker-compose.yml?disposition=ATTACHMENT
+wget https://tigase.dev/tigase/_server/tigase-server/~raw/master/src/main/docker/docker-compose.yml
 ```
 
 and start the server (adding `-d` option will run it as daemon):
@@ -252,19 +252,26 @@ and start the server (adding `-d` option will run it as daemon):
 docker compose up
 ```
 
-NOTE: Optional CoTURN server for TURN/STUN can be enabled by enabling `coturn` profile: `--profil coturn`:  
+Afterward, please continue in web browser using web installer by opening http://localhost:8080.
 
-```shell
-docker compose --profile coturn up
-```
-
-Afterward, please continue in web browser using web installer by opening http://localhost:8080
 
 > **_NOTE_**: on the _"Basic Tigase server configuration"_ screen please select `MySQL` as Database 
 
 > **_NOTE_**: on the _"Database configuration"_ screen please set "Address of the database instance" to `db` 
 
 > **_NOTE_**: on the _"Database configuration"_ screen please set _"Database root user credentials"_ to the ones from `docker-compose.yaml` file
+
+When finished with the setup restart the server - if you started it as stated above just hit ctrl+c and re-run `docker compose up`, otherwise if started as daemon just restart the xmpp service: `docker compose restart xmpp`
+
+#### CoTURN for audio/video calls
+
+> **_NOTE_**: Optional CoTURN server for TURN/STUN can be enabled by enabling `coturn` profile: `--profil coturn`:  
+
+```shell
+docker compose --profile coturn up
+```
+
+In that case you should configure external component discovery as described in [Using STUN & TURN server with Tigase XMPP Server with XEP-0215 (External Service Discovery) ](https://tigase.org/blog/tigase-server-with-stun-turn/)
 
 # Building & Publishing
 
