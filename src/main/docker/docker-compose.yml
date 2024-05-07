@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  xmpp:
+    image: "tigase/tigase-xmpp-server:latest" # alternative tags: latest-enterprise, nightly and nightly-enterprise
+    restart: unless-stopped
+    hostname: xmpp.my-awesome-domain.net # change do your domain
+    depends_on:
+      - db
+      - coturn
+    ports:
+      - "8080:8080"
+      - "5222:5222"
+      - "5223:5223"
+      - "5269:5269"
+      - "5270:5270"
+      - "5277:5277"
+      - "5280:5280"
+      - "5281:5281"
+      - "5290:5290"
+      - "5291:5291"
+      - "9050:9050"
+    volumes:
+      - ./tigase-server/etc:/home/tigase/tigase-server/etc
+      - ./tigase-server/data:/home/tigase/tigase-server/data
+      - ./tigase-server/logs:/home/tigase/tigase-server/logs
+      - ./tigase-server/certs:/home/tigase/tigase-server/certs
+      - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
+    environment:
+      - PRODUCTION_HEAP_SETTINGS
+      - DB_TYPE=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_ROOT_USER=root
+      - DB_ROOT_PASS=root # if changed adjust db.environment.MYSQL_ROOT_PASSWORD value
+
+  db:
+    image: mysql:8.1
+    restart: unless-stopped
+    command: --log-bin-trust-function-creators=ON
+    environment:
+      MYSQL_ROOT_PASSWORD: root # if changed adjust services.xmpp.environment.DB_ROOT_PASS; database instance is not exposed thus it's inaccessible to outside world
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  coturn:
+    image: coturn/coturn
+    restart: unless-stopped
+    profiles: ["coturn"]
+    ports:
+      - 3478:3478
+      - 3478:3478/udp
+      - 5349:5349
+      - 5349:5349/udp
+      - 8099:8099
+      - 49160-49200:49160-49200
+    command:
+      - -n
+      - --log-file=stdout
+      - --min-port=49160
+      - --max-port=49200
+      - --realm=domain # adjust to the name of the domain pointing to the instance
+      - --user=tigase:tigase # can be adjusted but the same should be used in ext-disco Tigase configuration
+      - --lt-cred-mech
+      - --fingerprint
+      - --external-ip=$$(detect-external-ip)
+    volumes:
+      - ./coturn/coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
+      - ./coturn/.cache/data:/var/lib/coturn
