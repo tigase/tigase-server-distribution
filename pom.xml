@@ -537,6 +537,10 @@
                         </paths>
                         <permissions>
                             <permission>
+                                <file>/home/tigase/tigase-server/scripts/wait-for-it.sh</file>
+                                <mode>755</mode>
+                            </permission>
+                            <permission>
                                 <file>/home/tigase/tigase-server/scripts/tigase.sh</file>
                                 <mode>755</mode>
                             </permission>
