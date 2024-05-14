@@ -507,6 +507,7 @@
                             <volume>/home/tigase/tigase-server/etc</volume>
                             <volume>/home/tigase/tigase-server/conf</volume>
                             <volume>/home/tigase/tigase-server/certs</volume>
+							<volume>/home/tigase/tigase-server/jars</volume>
                             <volume>/home/tigase/tigase-server/logs</volume>
                             <volume>/home/tigase/tigase-server/data</volume>
                             <volume>/home/tigase/tigase-server/tigasedb</volume>
