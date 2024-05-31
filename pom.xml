@@ -1166,7 +1166,14 @@
             <version>1.0.0</version>
             <scope>runtime</scope>
         </dependency>
-        
+
+<!--        <dependency>-->
+<!--            <groupId>tigase</groupId>-->
+<!--            <artifactId>tigase-tags</artifactId>-->
+<!--            <version>1.0.0-SNAPSHOT</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
         <!--databases-->
         <dependency>
             <groupId>org.apache.derby</groupId>
