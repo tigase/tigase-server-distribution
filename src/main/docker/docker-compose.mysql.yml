@@ -25,9 +25,9 @@ services:
       - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
     environment:
       - PRODUCTION_HEAP_SETTINGS
-      - DB_TYPE=postgresql
+      - DB_TYPE=mysql
       - DB_HOST=db
-      - DB_PORT=5432
+      - DB_PORT=3306
       - DB_ROOT_USER=root
       - DB_ROOT_PASS=root # if changed adjust db.environment.MYSQL_ROOT_PASSWORD value
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
@@ -35,12 +35,13 @@ services:
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
 
   db:
-    image: postgres:14
+    image: mysql:8.1
     restart: unless-stopped
+    command: --log-bin-trust-function-creators=ON
     environment:
-      POSTGRES_PASSWORD: root # if changed adjust services.xmpp.environment.DB_ROOT_PASS; database instance is not exposed thus it's inaccessible to outside world
+      MYSQL_ROOT_PASSWORD: root # if changed adjust services.xmpp.environment.DB_ROOT_PASS; database instance is not exposed thus it's inaccessible to outside world
     volumes:
-      - ./postgres/data:/var/lib/postgresql/data
+      - ./mysql/data:/var/lib/mysql
 
   coturn:
     image: coturn/coturn
