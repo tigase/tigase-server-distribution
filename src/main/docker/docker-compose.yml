@@ -32,6 +32,7 @@ services:
       - DB_ROOT_PASS=root # if changed adjust db.environment.MYSQL_ROOT_PASSWORD value
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
 #      - ADMIN_PASSWORD
+#      - HTTP_API_KEY_BOOTSTRAP
 
   db:
     image: mysql:8.1
