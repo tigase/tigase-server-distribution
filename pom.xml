@@ -56,8 +56,8 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:${scm_repo_server_base}/tigase-server/.git</connection>
-        <developerConnection>scm:git:${scm_repo_server_base}/tigase-server/.git</developerConnection>
+        <connection>scm:git:${scm_repo_server_base}/tigase-server.git</connection>
+        <developerConnection>scm:git:${scm_repo_server_base}/tigase-server.git</developerConnection>
         <url>${scm_repo_server_base}/tigase-server/</url>
         <tag>HEAD</tag>
     </scm>
