@@ -827,10 +827,10 @@
                                     </includes>
                                 </artifactItem>
 
-                                <artifactItem>
-                                    <groupId>tigase</groupId>
-                                    <artifactId>tigase-tags</artifactId>
-                                </artifactItem>
+<!--                                <artifactItem>-->
+<!--                                    <groupId>tigase</groupId>-->
+<!--                                    <artifactId>tigase-tags</artifactId>-->
+<!--                                </artifactItem>-->
 
 
                             </artifactItems>
