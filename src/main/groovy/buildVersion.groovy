@@ -45,7 +45,11 @@ tigaseLibraries.each { file ->
 	if (implementationBuild != null) {
 		def buildNumber = implementationBuild.replaceAll("Implementation-Build: (\\d+)/.*", "\$1")
 		try {
-			log.info("Adding version: ${buildNumber} \timplementation: ${implementationBuild}, source ${file.getName()}")
+			if (Integer.valueOf(buildNumber) == 1) {
+				log.warn("Incorrect dependency build number for source: ${file.getName()}")
+			} else {
+				log.info("Adding version: ${buildNumber} \timplementation: ${implementationBuild}, source ${file.getName()}")
+			}
 			build.addAndGet(Integer.valueOf(buildNumber))
 		} catch (NumberFormatException e) {
 			log.warn("Wrong format for: ${file.toPath().getFileName().toString()}: ${buildNumber}")
