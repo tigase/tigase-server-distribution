@@ -827,10 +827,10 @@
                                     </includes>
                                 </artifactItem>
 
-<!--                                <artifactItem>-->
-<!--                                    <groupId>tigase</groupId>-->
-<!--                                    <artifactId>tigase-tags</artifactId>-->
-<!--                                </artifactItem>-->
+                                <artifactItem>
+                                    <groupId>tigase</groupId>
+                                    <artifactId>tigase-tags</artifactId>
+                                </artifactItem>
 
 
                             </artifactItems>
@@ -1158,12 +1158,12 @@
             <version>1.1.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>tigase</groupId>-->
-<!--            <artifactId>tigase-tags</artifactId>-->
-<!--            <version>1.0.0-SNAPSHOT</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>tigase</groupId>
+            <artifactId>tigase-tags</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!--databases-->
         <dependency>
