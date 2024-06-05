@@ -36,7 +36,7 @@ AtomicInteger build = new AtomicInteger(0);
 
 log.info("Found ${tigaseLibraries?.length} libraries")
 
-tigaseLibraries.each { file ->
+tigaseLibraries.sort().each { file ->
 	def zipFile = new ZipFile(file)
 	def entry = zipFile.getEntry("META-INF/MANIFEST.MF")
 	def reader = new InputStreamReader(zipFile.getInputStream(entry))
@@ -46,14 +46,16 @@ tigaseLibraries.each { file ->
 		def buildNumber = implementationBuild.replaceAll("Implementation-Build: (\\d+)/.*", "\$1")
 		try {
 			if (Integer.valueOf(buildNumber) == 1) {
-				log.warn("Incorrect dependency build number for source: ${file.getName()}")
+				log.warn("Incorrect dependency build number for source: ${file.getName()}: ${buildNumber} / implementation: ${implementationBuild}")
 			} else {
-				log.info("Adding version: ${buildNumber} \timplementation: ${implementationBuild}, source ${file.getName()}")
+				log.info("Adding version: ${buildNumber}  \timplementation: ${implementationBuild}, source ${file.getName()}")
 			}
 			build.addAndGet(Integer.valueOf(buildNumber))
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			log.warn("Wrong format for: ${file.toPath().getFileName().toString()}: ${buildNumber}")
 		}
+	} else {
+		log.warn("Missing implementation build for: ${file.toPath().getFileName().toString()}: ${implementationBuild}")
 	}
 }
 
