@@ -213,9 +213,9 @@
 				<include>com.sun.mail:smtp</include>
 
 				<!--BouncyCastle extension-->
-				<include>org.bouncycastle:bctls-jdk15on</include>
-				<include>org.bouncycastle:bcprov-jdk15on</include>
-				<include>org.bouncycastle:bcpkix-jdk15on</include>
+                <include>org.bouncycastle:bctls-jdk18on</include>
+                <include>org.bouncycastle:bcprov-jdk18on</include>
+                <include>org.bouncycastle:bcpkix-jdk18on</include>
 
 				<!-- Tigase Extras mDNS extension-->
 				<include>org.jmdns:jmdns</include>
