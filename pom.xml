@@ -12,7 +12,7 @@
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
         <jib.from.image>tigase/tigase-xmpp-server-base:17</jib.from.image>
         <jib.to.repository>tigase/tigase-xmpp-server</jib.to.repository>
-        <dist-container-dir>${project.build.directory}/_dist-container/</dist-container-dir>
+        <dist-container-dir>${project.build.directory}/_dist-container</dist-container-dir>
     </properties>
 
     <parent>
@@ -375,20 +375,6 @@
             </build>
         </profile>
         <profile>
-            <id>build-container-image-free</id>
-            <properties>
-                <jib.image.src>${dist-container-dir}/tigase-server-dist/tigase-server</jib.image.src>
-                <jib.to.tag>nightly</jib.to.tag>
-            </properties>
-        </profile>
-        <profile>
-            <id>build-container-image-enterprise</id>
-            <properties>
-                <jib.image.src>${dist-container-dir}/tigase-server-dist-enterprise/tigase-server</jib.image.src>
-                <jib.to.tag>nightly-enterprise</jib.to.tag>
-            </properties>
-        </profile>
-        <profile>
             <id>generate-readme</id>
             <activation>
                 <os>
@@ -441,9 +427,6 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.3</version>
-                <goals>
-                    <goal>build</goal>
-                </goals>
                 <dependencies>
                     <dependency>
                         <groupId>com.google.cloud.tools</groupId>
@@ -451,6 +434,93 @@
                         <version>0.3.0</version>
                     </dependency>
                 </dependencies>
+                <executions>
+                    <execution>
+                        <id>dist-foss</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <phase>install</phase>
+                        <configuration>
+                            <to>
+                                <image>${jib.to.repository}:${project.version}</image>
+                                <tags>
+                                    <tag>nightly</tag>
+                                </tags>
+                            </to>
+
+                            <extraDirectories combine.children="append">
+                                <paths combine.children="append">
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/database</from>
+                                        <into>/home/tigase/tigase-server/database</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/etc</from>
+                                        <into>/home/tigase/tigase-server/etc.orig</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/jars</from>
+                                        <into>/home/tigase/tigase-server/jars</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/scripts</from>
+                                        <into>/home/tigase/tigase-server/scripts</into>
+                                    </path>
+                                    <path>
+                                        <from>${project.basedir}/src/main/container</from>
+                                        <into>/</into>
+                                        <includes>start.sh</includes>
+                                    </path>
+                                </paths>
+                            </extraDirectories>
+                        </configuration>
+
+                    </execution>
+                    <execution>
+                        <id>dist-enterprise</id>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <phase>install</phase>
+                        <configuration>
+                            <to>
+                                <image>${jib.to.repository}:${project.version}-enterprise</image>
+                                <tags>
+                                    <tag>nightly-enterprise</tag>
+                                </tags>
+                            </to>
+
+                            <extraDirectories combine.children="append">
+                                <paths combine.children="append">
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/database</from>
+                                        <into>/home/tigase/tigase-server/database</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/etc</from>
+                                        <into>/home/tigase/tigase-server/etc.orig</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/jars</from>
+                                        <into>/home/tigase/tigase-server/jars</into>
+                                    </path>
+                                    <path>
+                                        <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/scripts</from>
+                                        <into>/home/tigase/tigase-server/scripts</into>
+                                    </path>
+                                    <path>
+                                        <from>${project.basedir}/src/main/container</from>
+                                        <into>/</into>
+                                        <includes>start.sh</includes>
+                                    </path>
+                                </paths>
+                            </extraDirectories>
+                        </configuration>
+
+                    </execution>
+                </executions>
+
                 <configuration>
                     <pluginExtensions>
                         <pluginExtension>
@@ -514,28 +584,6 @@
                         </volumes>
                     </container>
                     <extraDirectories>
-                        <paths>
-                            <path>
-                                <from>${jib.image.src}/database</from>
-                                <into>/home/tigase/tigase-server/database</into>
-                            </path>
-                            <path>
-                                <from>${jib.image.src}/etc</from>
-                                <into>/home/tigase/tigase-server/etc.orig</into>
-                            </path>
-                            <path>
-                                <from>${jib.image.src}/jars</from>
-                                <into>/home/tigase/tigase-server/jars</into>
-                            </path>
-                            <path>
-                                <from>${jib.image.src}/scripts</from>
-                                <into>/home/tigase/tigase-server/scripts</into>
-                            </path>
-                            <path>
-                                <from>src/main/container</from>
-                                <includes>start.sh</includes>
-                            </path>
-                        </paths>
                         <permissions>
                             <permission>
                                 <file>/home/tigase/tigase-server/scripts/wait-for-it.sh</file>
@@ -556,9 +604,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+
+                <configuration>
+                    <tarLongFileMode>gnu</tarLongFileMode>
+                    <finalName>tigase-server-${project.version}-b${gitVersion}</finalName>
+                    <outputDirectory>${dist-dir}</outputDirectory>
+                    <appendAssemblyId>true</appendAssemblyId>
+                </configuration>
+
                 <executions>
                     <execution>
-                        <id>dist</id>
+                        <id>dist-packages</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -575,7 +632,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>dist-container</id>
+                        <id>dist-docker-preparation-foss</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -583,15 +640,33 @@
                         <configuration>
                             <descriptors>
                                 <descriptor>src/main/assembly/dist.xml</descriptor>
+                            </descriptors>
+                            <formats>
+                                <format>dir</format>
+                            </formats>
+                            <tarLongFileMode>gnu</tarLongFileMode>
+                            <finalName>tigase-server-foss</finalName>
+                            <outputDirectory>${dist-container-dir}</outputDirectory>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dist-docker-preparation-enterprise</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
                                 <descriptor>src/main/assembly/dist-enterprise.xml</descriptor>
                             </descriptors>
                             <formats>
                                 <format>dir</format>
                             </formats>
                             <tarLongFileMode>gnu</tarLongFileMode>
-                            <finalName>tigase-server</finalName>
+                            <finalName>tigase-server-enterprise</finalName>
                             <outputDirectory>${dist-container-dir}</outputDirectory>
-                            <appendAssemblyId>true</appendAssemblyId>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
@@ -655,7 +730,7 @@
                                     <artifactId>tigase-mix</artifactId>
                                     <outputDirectory>${docu_build_path}/tigase-mix</outputDirectory>
                                 </artifactItem>
-                                
+
                                 <artifactItem>
                                     <groupId>tigase</groupId>
                                     <artifactId>tigase-message-archiving</artifactId>
@@ -672,7 +747,7 @@
                                     <groupId>tigase</groupId>
                                     <artifactId>tigase-push</artifactId>
                                     <outputDirectory>${docu_build_path}/tigase-push/</outputDirectory>
-                                <!--we need to extract it one level up due to it linking to child guides-->
+                                    <!--we need to extract it one level up due to it linking to child guides-->
                                 </artifactItem>
 
                                 <artifactItem>
