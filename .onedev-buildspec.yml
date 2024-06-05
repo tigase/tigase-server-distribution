@@ -1,7 +1,7 @@
-version: 25
+version: 29
 imports:
 - projectPath: Templates
-  revision: 0.0.4
+  revision: 0.0.5
 jobs:
 - name: Maven CI
   steps:
@@ -18,50 +18,7 @@ jobs:
     runInContainer: true
     image: tigase/devops-1dev-builder-image:latest
     interpreter: !DefaultInterpreter
-      commands:
-      - '#set -x'
-      - export AWS_ACCESS_KEY_ID=@secret:tigase.aws.access-key-id@
-      - export AWS_SECRET_ACCESS_KEY=@secret:tigase.aws.secret-access-key@
-      - export AWS_DEFAULT_REGION=@secret:tigase.aws.default-region@
-      - ''
-      - ''
-      - export DIST_URL_ROOT=s3://build.tigase.net-new
-      - export DIST_DIR=${DIST_URL_ROOT}/nightlies/dists
-      - ''
-      - SOURCE_DIR=target/_dist
-      - COMPONENT=tigase-server
-      - ''
-      - export DATE=$(date +%Y-%m-%d)
-      - VERSION=@file:buildVersion@
-      - ''
-      - ls -lah
-      - ls -lah target
-      - ''
-      - BUILD_VERSION=@file:target/build-version@
-      - ''
-      - '# Restored original naming convention'
-      - aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}/ --recursive --exclude="*" --include="${COMPONENT}-*"
-      - '#aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude="*" --include="${COMPONENT}-*"'
-      - ''
-      - '#git remote update'
-      - '#git fetch'
-      - ''
-      - '#GIT_HEAD="$(git rev-parse ''HEAD'')"'
-      - '#GIT_ORIGIN_MASTER="$(git rev-parse ''origin/master'')"'
-      - '#'
-      - '#echo "GIT_HEAD: ${GIT_HEAD}"'
-      - '#echo "GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}"'
-      - '#'
-      - ''
-      - '# Let''s assume this job will be run only on master branch'
-      - '#if [ "${GIT_HEAD}" = "${GIT_ORIGIN_MASTER}" ] ; then'
-      - "\techo \"master build, setting up 'latest' links for nightlies\""
-      - "\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;"
-      - "\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");"
-      - "\tdone"
-      - '#fi'
-      - ''
-      - '#set +x'
+      commands: "#set -x\nexport AWS_ACCESS_KEY_ID=@secret:tigase.aws.access-key-id@\nexport AWS_SECRET_ACCESS_KEY=@secret:tigase.aws.secret-access-key@\nexport AWS_DEFAULT_REGION=@secret:tigase.aws.default-region@\n\n\nexport DIST_URL_ROOT=s3://build.tigase.net-new\nexport DIST_DIR=${DIST_URL_ROOT}/nightlies/dists\n\nSOURCE_DIR=target/_dist\nCOMPONENT=tigase-server\n\nexport DATE=$(date +%Y-%m-%d)\nVERSION=@file:buildVersion@\n\nls -lah\nls -lah target\n\nBUILD_VERSION=@file:target/build-version@\n\n# Restored original naming convention\naws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n#aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n\n#git remote update\n#git fetch\n\n#GIT_HEAD=\"$(git rev-parse 'HEAD')\"\n#GIT_ORIGIN_MASTER=\"$(git rev-parse 'origin/master')\"\n#\n#echo \"GIT_HEAD: ${GIT_HEAD}\"\n#echo \"GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}\"\n#\n\n# Let's assume this job will be run only on master branch\n#if [ \"${GIT_HEAD}\" = \"${GIT_ORIGIN_MASTER}\" ] ; then\n\techo \"master build, setting up 'latest' links for nightlies\"\n\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;\n\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");\n\tdone\n#fi\n\n#set +x\n"
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !PublishArtifactStep
@@ -74,9 +31,9 @@ jobs:
     runInContainer: true
     image: tigase/tigase-maven-docker:3-temurin-17
     interpreter: !DefaultInterpreter
-      commands:
-      - mvn jib:build -Pbuild-container-image-free -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
-      - mvn jib:build -Pbuild-container-image-enterprise  -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
+      commands: |
+        mvn jib:build -Pbuild-container-image-free -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
+        mvn jib:build -Pbuild-container-image-enterprise  -Djib.to.auth.username=@secret:tigase.docker.hub.username@ -Djib.to.auth.password=@secret:tigase.docker.hub.password@ -f pom.xml
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   triggers:
@@ -85,9 +42,6 @@ jobs:
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
-  caches:
-  - key: maven-cache
-    path: /root/.m2/repository
   timeout: 3600
 - name: Push to GitHub
   steps:
@@ -114,9 +68,9 @@ jobs:
     runInContainer: true
     image: maven:3-eclipse-temurin-17
     interpreter: !DefaultInterpreter
-      commands:
-      - echo "Detecting project version (may require some time while downloading maven dependencies)..."
-      - echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
+      commands: |
+        echo "Detecting project version (may require some time while downloading maven dependencies)..."
+        echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !SetBuildVersionStep
@@ -147,10 +101,10 @@ jobs:
     runInContainer: true
     image: maven:3-eclipse-temurin-17
     interpreter: !DefaultInterpreter
-      commands:
-      - echo "Detecting project version (may require some time while downloading maven dependencies)..."
-      - echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
-      - echo $(date +%Y-%m-%d) > todaysDate
+      commands: |
+        echo "Detecting project version (may require some time while downloading maven dependencies)..."
+        echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
+        echo $(date +%Y-%m-%d) > todaysDate
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !CommandStep
@@ -158,13 +112,13 @@ jobs:
     runInContainer: true
     image: tigase/tigase-maven-docker:3-temurin-17
     interpreter: !DefaultInterpreter
-      commands:
-      - mvn -version
-      - mvn -Pdist -Dtigase.internalrepo.username=@secret:maven-deploy-username@ -Dtigase.internalrepo.password=@secret:maven-deploy-password@ clean test deploy
-      - ''
-      - ''
-      - ls -lah
-      - ls -lah target
+      commands: |
+        mvn -version
+        mvn -Pdist -Dtigase.internalrepo.username=@secret:maven-deploy-username@ -Dtigase.internalrepo.password=@secret:maven-deploy-password@ clean test deploy
+
+
+        ls -lah
+        ls -lah target
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !SetBuildVersionStep
@@ -176,47 +130,7 @@ jobs:
     runInContainer: true
     image: tigase/devops-1dev-builder-image:latest
     interpreter: !DefaultInterpreter
-      commands:
-      - '#set -x'
-      - export AWS_ACCESS_KEY_ID=@secret:aws-access-key-id@
-      - export AWS_SECRET_ACCESS_KEY=@secret:aws-secret-access-key@
-      - export AWS_DEFAULT_REGION=@secret:aws-default-region@
-      - ''
-      - ''
-      - export DIST_URL_ROOT=s3://build.tigase.net-new
-      - export DIST_DIR=${DIST_URL_ROOT}/nightlies/dists-1dev
-      - ''
-      - SOURCE_DIR=target/_dist
-      - COMPONENT=tigase-server
-      - ''
-      - export DATE=$(date +%Y-%m-%d)
-      - VERSION=@file:buildVersion@
-      - ''
-      - ls -lah
-      - ls -lah target
-      - ''
-      - BUILD_VERSION=@file:target/build-version@
-      - ''
-      - aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude="*" --include="${COMPONENT}-*"
-      - ''
-      - git remote update
-      - git fetch
-      - ''
-      - GIT_HEAD="$(git rev-parse 'HEAD')"
-      - GIT_ORIGIN_MASTER="$(git rev-parse 'origin/master')"
-      - ''
-      - 'echo "GIT_HEAD: ${GIT_HEAD}"'
-      - 'echo "GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}"'
-      - ''
-      - ''
-      - if [ "${GIT_HEAD}" = "${GIT_ORIGIN_MASTER}" ] ; then
-      - "\techo \"master build, setting up 'latest' links for nightlies\""
-      - "\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;"
-      - "\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");"
-      - "\tdone"
-      - fi
-      - ''
-      - '#set +x'
+      commands: "#set -x\nexport AWS_ACCESS_KEY_ID=@secret:aws-access-key-id@\nexport AWS_SECRET_ACCESS_KEY=@secret:aws-secret-access-key@\nexport AWS_DEFAULT_REGION=@secret:aws-default-region@\n\n\nexport DIST_URL_ROOT=s3://build.tigase.net-new\nexport DIST_DIR=${DIST_URL_ROOT}/nightlies/dists-1dev\n\nSOURCE_DIR=target/_dist\nCOMPONENT=tigase-server\n\nexport DATE=$(date +%Y-%m-%d)\nVERSION=@file:buildVersion@\n\nls -lah\nls -lah target\n\nBUILD_VERSION=@file:target/build-version@\n\naws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n\ngit remote update\ngit fetch\n\nGIT_HEAD=\"$(git rev-parse 'HEAD')\"\nGIT_ORIGIN_MASTER=\"$(git rev-parse 'origin/master')\"\n\necho \"GIT_HEAD: ${GIT_HEAD}\"\necho \"GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}\"\n\n\nif [ \"${GIT_HEAD}\" = \"${GIT_ORIGIN_MASTER}\" ] ; then\n\techo \"master build, setting up 'latest' links for nightlies\"\n\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;\n\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");\n\tdone\nfi\n\n#set +x\n"
     useTTY: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !PublishArtifactStep
@@ -227,7 +141,4 @@ jobs:
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
-  caches:
-  - key: maven-cache
-    path: /root/.m2/repository
   timeout: 3600
