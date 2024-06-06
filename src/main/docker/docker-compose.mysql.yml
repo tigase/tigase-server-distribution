@@ -6,17 +6,17 @@ services:
     depends_on:
       - db
     ports:
-      - "8080:8080"
-      - "5222:5222"
-      - "5223:5223"
-      - "5269:5269"
-      - "5270:5270"
-      - "5277:5277"
-      - "5280:5280"
-      - "5281:5281"
-      - "5290:5290"
-      - "5291:5291"
-      - "9050:9050"
+      - "8080:8080" # for HTTP server (web-based setup, REST API, file upload extension, etc.)
+      - "5222:5222" # incoming client to server XMPP connections
+      - "5223:5223" # incoming client to server XMPP connections over TLS/SSL, including DirectTLS
+      - "5269:5269" # default s2s port, i.e.: federation support
+      - "5270:5270" # default external-component connection port
+      - "5277:5277" # inter-cluster communication
+      - "5280:5280" # default BOSH connections
+      - "5281:5281" # encrypted BOSH connections (over https)
+      - "5290:5290" # default WebSocket connections
+      - "5291:5291" # default WebSocket connections over TLS/SSL
+      - "9050:9050" # JMX Monitoring
     volumes:
       - ./tigase-server/etc:/home/tigase/tigase-server/etc
       - ./tigase-server/data:/home/tigase/tigase-server/data
