@@ -28,8 +28,8 @@ services:
       - DB_TYPE=postgresql
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_ROOT_USER=root
-      - DB_ROOT_PASS=root # if changed adjust db.environment.MYSQL_ROOT_PASSWORD value
+      - DB_ROOT_USER=postgres
+      - DB_ROOT_PASS=root # if changed adjust db.environment.POSTGRES_PASSWORD value
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
