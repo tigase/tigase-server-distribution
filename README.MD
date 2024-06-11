@@ -1,3 +1,5 @@
+> # NOTE: Tigase has new home at [tigase.dev](https://tigase.dev/) - please submit all issues/pull-requests there in the relevant sub-project!
+
 <p align="center">
   <a href="https://tigase.net/">
     <img
