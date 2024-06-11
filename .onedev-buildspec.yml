@@ -53,18 +53,12 @@ jobs:
     withLfs: false
     withSubmodules: false
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
-  - !CommandStep
-    name: detect build version
-    runInContainer: true
-    image: maven:3-eclipse-temurin-17
-    interpreter: !DefaultInterpreter
-      commands: |
-        echo "Detecting project version (may require some time while downloading maven dependencies)..."
-        echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
-    useTTY: false
+  - !UseTemplateStep
+    name: maven build & deploy
+    templateName: Tigase Server - Maven build & deploy
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !SetBuildVersionStep
-    name: set build version
+    name: Set build version (for publication)
     buildVersion: '@file:buildVersion@-@file:target/build-version@'
     condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
   - !PublishArtifactStep
