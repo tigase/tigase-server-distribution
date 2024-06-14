@@ -1,8 +1,11 @@
+# Example cluster setup with two Tigase XMPP Server instances. It's done so both can map/expose ports and be accessible (not possible when using docker service scaling feature)
+
+
 services:
-  xmpp:
+  xmpp-cl1:
     image: "tigase/tigase-xmpp-server:latest" # alternative tags: latest-enterprise, nightly and nightly-enterprise
     restart: unless-stopped
-    hostname: xmpp.my-awesome-domain.net # change do your domain
+    hostname: xmpp-cl1.my-awesome-domain.net # change do your domain
     depends_on:
       - db
     ports:
@@ -19,8 +22,8 @@ services:
       - "9050:9050" # JMX Monitoring
     volumes:
       - ./tigase-server/etc:/home/tigase/tigase-server/etc
-      - ./tigase-server/data:/home/tigase/tigase-server/data
-      - ./tigase-server/logs:/home/tigase/tigase-server/logs
+      - ./tigase-server/data-cl1:/home/tigase/tigase-server/data
+      - ./tigase-server/logs-cl1:/home/tigase/tigase-server/logs
       - ./tigase-server/certs:/home/tigase/tigase-server/certs
       - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
     environment:
@@ -30,7 +33,43 @@ services:
       - DB_PORT=5432
       - DB_ROOT_USER=postgres
       - DB_ROOT_PASS=root # if changed adjust db.environment.POSTGRES_PASSWORD value
-#      - DEFAULT_VIRTUAL_DOMAIN= # (optional) set default VHost/domain of the installation (if not set, instance hostname will be used)
+      - DEFAULT_VIRTUAL_DOMAIN=xmpp.my-awesome-domain.net # (optional) set default VHost/domain of the installation (if not set, instance hostname will be used)
+#      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
+#      - ADMIN_PASSWORD
+#      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
+
+  xmpp-cl2:
+    image: "tigase/tigase-xmpp-server:latest" # alternative tags: latest-enterprise, nightly and nightly-enterprise
+    restart: unless-stopped
+    hostname: xmpp-cl2.my-awesome-domain.net # change do your domain
+    depends_on:
+      - db
+    ports:
+      - "8081:8080" # for HTTP server (web-based setup, REST API, file upload extension, etc.)
+      - "6222:5222" # incoming client to server XMPP connections
+      - "6223:5223" # incoming client to server XMPP connections over TLS/SSL, including DirectTLS
+      - "6269:5269" # default s2s port, i.e.: federation support
+      - "6270:5270" # default external-component connection port
+      - "6277:5277" # inter-cluster communication
+      - "6280:5280" # default BOSH connections
+      - "6281:5281" # encrypted BOSH connections (over https)
+      - "6290:5290" # default WebSocket connections
+      - "6291:5291" # default WebSocket connections over TLS/SSL
+      - "9051:9050" # JMX Monitoring
+    volumes:
+      - ./tigase-server/etc:/home/tigase/tigase-server/etc
+      - ./tigase-server/data-cl2:/home/tigase/tigase-server/data
+      - ./tigase-server/logs-cl2:/home/tigase/tigase-server/logs
+      - ./tigase-server/certs:/home/tigase/tigase-server/certs
+      - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
+    environment:
+      - PRODUCTION_HEAP_SETTINGS
+      - DB_TYPE=postgresql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_ROOT_USER=postgres
+      - DB_ROOT_PASS=root # if changed adjust db.environment.POSTGRES_PASSWORD value
+      - DEFAULT_VIRTUAL_DOMAIN=xmpp.my-awesome-domain.net # (optional) set default VHost/domain of the installation (if not set, instance hostname will be used)
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
