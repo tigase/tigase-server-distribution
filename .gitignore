@@ -21,3 +21,4 @@ src/main/restructured/_build
 /src/main/docker/mysql/
 /src/main/docker/tigase-server/
 /src/main/docker/coturn/
+src/main/docker/postgres
