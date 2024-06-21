@@ -23,6 +23,7 @@ services:
       - ./tigase-server/logs:/home/tigase/tigase-server/logs
       - ./tigase-server/certs:/home/tigase/tigase-server/certs
       - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
+#      - ./tigase-server/jars:/home/tigase/tigase-server/jars
     environment:
       - PRODUCTION_HEAP_SETTINGS
       - DB_TYPE=mysql

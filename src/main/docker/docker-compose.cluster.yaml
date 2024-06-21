@@ -26,6 +26,7 @@ services:
       - ./tigase-server/logs-cl1:/home/tigase/tigase-server/logs
       - ./tigase-server/certs:/home/tigase/tigase-server/certs
       - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
+#      - ./tigase-server/jars:/home/tigase/tigase-server/jars
     environment:
       - PRODUCTION_HEAP_SETTINGS
       - DB_TYPE=postgresql
@@ -76,6 +77,7 @@ services:
       - ./tigase-server/logs-cl2:/home/tigase/tigase-server/logs
       - ./tigase-server/certs:/home/tigase/tigase-server/certs
       - ./tigase-server/tigasedb:/home/tigase/tigase-server/tigasedb
+#      - ./tigase-server/jars:/home/tigase/tigase-server/jars
     environment:
       - PRODUCTION_HEAP_SETTINGS
       - DB_TYPE=postgresql

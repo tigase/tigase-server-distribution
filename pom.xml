@@ -461,7 +461,7 @@
                                     </path>
                                     <path>
                                         <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/jars</from>
-                                        <into>/home/tigase/tigase-server/jars</into>
+                                        <into>/home/tigase/tigase-server/jars.orig</into>
                                     </path>
                                     <path>
                                         <from>${dist-container-dir}/tigase-server-foss/tigase-server-foss/scripts</from>
@@ -475,7 +475,6 @@
                                 </paths>
                             </extraDirectories>
                         </configuration>
-
                     </execution>
                     <execution>
                         <id>dist-enterprise</id>
@@ -503,7 +502,7 @@
                                     </path>
                                     <path>
                                         <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/jars</from>
-                                        <into>/home/tigase/tigase-server/jars</into>
+                                        <into>/home/tigase/tigase-server/jars.orig</into>
                                     </path>
                                     <path>
                                         <from>${dist-container-dir}/tigase-server-enterprise/tigase-server-enterprise/scripts</from>
@@ -574,9 +573,11 @@
                             <port>9070</port>
                         </ports>
                         <volumes>
+                            <!--Directory is populated by copying files from `etc.orig` to `etc` during startup in `start.sh` script-->
                             <volume>/home/tigase/tigase-server/etc</volume>
                             <volume>/home/tigase/tigase-server/conf</volume>
                             <volume>/home/tigase/tigase-server/certs</volume>
+                            <!--Directory is populated by copying files from `jars.orig` to `jars` during startup in `start.sh` script-->
 							<volume>/home/tigase/tigase-server/jars</volume>
                             <volume>/home/tigase/tigase-server/logs</volume>
                             <volume>/home/tigase/tigase-server/data</volume>
