@@ -38,6 +38,20 @@ services:
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
 
+    # ## High Load settings from https://docs.tigase.net/en/latest/Tigase_Administration/Configuration/_Configuration.html#linux-settings-for-high-load-systems
+    privileged: true
+    sysctls:
+      net.core.somaxconn: 1024
+      net.ipv4.tcp_syncookies: 0
+      net.ipv4.tcp_keepalive_time: 60
+      net.ipv4.tcp_keepalive_probes: 3
+      net.ipv4.tcp_keepalive_intvl: 90
+      net.ipv4.tcp_retries2: 4
+    ulimits:
+      nofile:
+        soft: 350000
+        hard: 350000
+
   xmpp-cl2:
     image: "tigase/tigase-xmpp-server:latest" # alternative tags: latest-enterprise, nightly and nightly-enterprise
     restart: unless-stopped
@@ -73,6 +87,20 @@ services:
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
+
+    # ## High Load settings from https://docs.tigase.net/en/latest/Tigase_Administration/Configuration/_Configuration.html#linux-settings-for-high-load-systems
+    privileged: true
+    sysctls:
+      net.core.somaxconn: 1024
+      net.ipv4.tcp_syncookies: 0
+      net.ipv4.tcp_keepalive_time: 60
+      net.ipv4.tcp_keepalive_probes: 3
+      net.ipv4.tcp_keepalive_intvl: 90
+      net.ipv4.tcp_retries2: 4
+    ulimits:
+      nofile:
+        soft: 350000
+        hard: 350000
 
   db:
     image: postgres:14
