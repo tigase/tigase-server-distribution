@@ -7,7 +7,8 @@ services:
     restart: unless-stopped
     hostname: xmpp-cl1.my-awesome-domain.net # change do your domain
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8080:8080" # for HTTP server (web-based setup, REST API, file upload extension, etc.)
       - "5222:5222" # incoming client to server XMPP connections
@@ -39,6 +40,12 @@ services:
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
 
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
     # ## High Load settings from https://docs.tigase.net/en/latest/Tigase_Administration/Configuration/_Configuration.html#linux-settings-for-high-load-systems
     privileged: true
     sysctls:
@@ -58,7 +65,8 @@ services:
     restart: unless-stopped
     hostname: xmpp-cl2.my-awesome-domain.net # change do your domain
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8081:8080" # for HTTP server (web-based setup, REST API, file upload extension, etc.)
       - "6222:5222" # incoming client to server XMPP connections
@@ -89,6 +97,12 @@ services:
 #      - ADMIN_JID # you can define admin-user credentials here and it will be creatd automatically (if not using setup and providing config.tdsl file manually)
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
+
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 30
 
     # ## High Load settings from https://docs.tigase.net/en/latest/Tigase_Administration/Configuration/_Configuration.html#linux-settings-for-high-load-systems
     privileged: true

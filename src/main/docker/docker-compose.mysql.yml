@@ -4,7 +4,8 @@ services:
     restart: unless-stopped
     hostname: xmpp.my-awesome-domain.net # change do your domain
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8080:8080" # for HTTP server (web-based setup, REST API, file upload extension, etc.)
       - "5222:5222" # incoming client to server XMPP connections
@@ -36,6 +37,12 @@ services:
 #      - ADMIN_PASSWORD
 #      - HTTP_API_KEY_BOOTSTRAP # optional, bootstrap HTTP component API-KEY
 
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
     # ## High Load settings from https://docs.tigase.net/en/latest/Tigase_Administration/Configuration/_Configuration.html#linux-settings-for-high-load-systems
     privileged: true
     sysctls:
@@ -56,6 +63,12 @@ services:
     command: --log-bin-trust-function-creators=ON
     environment:
       MYSQL_ROOT_PASSWORD: root # if changed adjust services.xmpp.environment.DB_ROOT_PASS; database instance is not exposed thus it's inaccessible to outside world
+    healthcheck:
+      #      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysql", "-u", "root", "-proot", "--execute", "SHOW DATABASES;"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
     volumes:
       - ./mysql/data:/var/lib/mysql
 
