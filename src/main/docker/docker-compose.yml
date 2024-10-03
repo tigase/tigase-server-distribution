@@ -75,13 +75,15 @@ services:
     image: coturn/coturn
     restart: unless-stopped
     profiles: ["coturn"]
-    ports:
-      - 3478:3478
-      - 3478:3478/udp
-      - 5349:5349
-      - 5349:5349/udp
-      - 8099:8099
-      - 49160-49200:49160-49200
+    ## Ports are commented out because we use `network_mode: host`! Exposing ports results in lots of `docker-proxy` processed using lots of memory
+    #    ports:
+    #      - 3478:3478
+    #      - 3478:3478/udp
+    #      - 5349:5349
+    #      - 5349:5349/udp
+    #      - 8099:8099
+    #      - 49160-49200:49160-49200
+    network_mode: host
     command:
       - -n
       - --log-file=stdout
@@ -95,3 +97,16 @@ services:
     volumes:
       - ./coturn/coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
       - ./coturn/.cache/data:/var/lib/coturn
+
+  janus:
+    image: "441807014745.dkr.ecr.us-west-2.amazonaws.com/kangaroo.net/tigase-meet-janus:nightly-2021-08-20-1"
+    restart: unless-stopped
+    profiles: ["coturn"]
+    ## Ports are commented out because we use `network_mode: host`! Exposing ports results in lots of `docker-proxy` processed using lots of memory
+#    ports:
+#      - "21000-21100:21000-21100"
+    network_mode: host
+    environment:
+      - 'RTP_PORT_RANGE=21000-21100'
+#   ## for some reason EBS/Docker fails to properly interpolate that even though `curl` is available on host system!
+#     - PUBLIC_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
