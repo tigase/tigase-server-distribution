@@ -57,6 +57,11 @@ services:
       nofile:
         soft: 350000
         hard: 350000
+#    deploy:
+#      resources:
+#        limits:
+#          memory: 1g
+#          cpus: 4
 
   db:
     image: postgres:14
