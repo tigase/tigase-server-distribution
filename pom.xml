@@ -426,7 +426,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.4.3</version>
+                <version>3.4.5</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.google.cloud.tools</groupId>
@@ -559,6 +559,7 @@
                             <JAVA_HOME>/opt/java/openjdk</JAVA_HOME>
                             <TIGASE_HOME>/home/tigase/tigase-server</TIGASE_HOME>
                         </environment>
+                        <mainClass>tigase.server.XMPPServer</mainClass>
                         <ports>
                             <port>5222</port>
                             <port>5223</port>
