@@ -10,9 +10,12 @@
         <license.inlineHeader>${inlineHeader_agpl3}</license.inlineHeader>
         <documentation_phases.all_converters>none</documentation_phases.all_converters>
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
-        <jib.from.image>tigase/tigase-xmpp-server-base:17</jib.from.image>
+        <jib.from.image.base>21</jib.from.image.base>
+        <jib.from.image>tigase/tigase-xmpp-server-base:${jib.from.image.base}</jib.from.image>
         <jib.to.repository>tigase/tigase-xmpp-server</jib.to.repository>
         <dist-container-dir>${project.build.directory}/_dist-container</dist-container-dir>
+        <jib.image.tag>nightly</jib.image.tag>
+        <jib.image.tag-version>${jib.to.repository}:${project.version}</jib.image.tag-version>
     </properties>
 
     <parent>
@@ -419,6 +422,14 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>alpine</id>
+            <properties>
+                <jib.from.image.base>21-alpine</jib.from.image.base>
+                <jib.image.tag>nightly-alpine</jib.image.tag>
+                <jib.image.tag-version>${jib.to.repository}:${project.version}-alpine</jib.image.tag-version>
+            </properties>
+        </profile>
     </profiles>
 
     <build>
@@ -443,9 +454,9 @@
                         <phase>install</phase>
                         <configuration>
                             <to>
-                                <image>${jib.to.repository}:${project.version}</image>
+                                <image>${jib.image.tag-version}</image>
                                 <tags>
-                                    <tag>nightly</tag>
+                                    <tag>${jib.image.tag}</tag>
                                 </tags>
                             </to>
 
@@ -484,9 +495,9 @@
                         <phase>install</phase>
                         <configuration>
                             <to>
-                                <image>${jib.to.repository}:${project.version}-enterprise</image>
+                                <image>${jib.image.tag-version}-enterprise</image>
                                 <tags>
-                                    <tag>nightly-enterprise</tag>
+                                    <tag>${jib.image.tag}-enterprise</tag>
                                 </tags>
                             </to>
 
