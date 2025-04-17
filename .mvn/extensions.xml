@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <extensions>
     <extension>
         <!-- https://github.com/timgifford/maven-buildtime-extension -->
@@ -9,9 +8,15 @@
     </extension>
 
     <extension>
-        <!-- https://github.com/khmarbaise/maven-buildtime-profiler -->
         <groupId>com.soebes.maven.extensions</groupId>
         <artifactId>maven-buildtime-profiler</artifactId>
-        <version>0.2.0</version>
-      </extension>
+        <version>0.5.0</version>
+    </extension>
+
+    <extension>
+        <!-- requires enabling during execution: `-Dprofile -DprofileFormat=JSON,HTML` -->
+        <groupId>fr.jcgay.maven</groupId>
+        <artifactId>maven-profiler</artifactId>
+        <version>3.2</version>
+    </extension>
 </extensions>
