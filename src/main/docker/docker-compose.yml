@@ -1,7 +1,6 @@
 services:
   xmpp:
-    # image: "tigase/tigase-xmpp-server:nightly" # alternative tags: latest-enterprise, nightly and nightly-enterprise
-    image: "wojciechkapciatig/tests:nightly" # alternative tags: latest-enterprise, nightly and nightly-enterprise
+    image: "tigase/tigase-xmpp-server:nightly" # alternative tags: latest-enterprise, nightly and nightly-enterprise
     restart: unless-stopped
     hostname: xmpp.my-awesome-domain.net # change do your domain
     depends_on:
