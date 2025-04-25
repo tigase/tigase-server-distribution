@@ -1,4 +1,4 @@
-version: 29
+version: 38
 imports:
 - projectPath: Templates
   revision: 0.0.5
@@ -33,6 +33,10 @@ jobs:
   maxRetries: 3
   retryDelay: 30
   timeout: 3600
+  postBuildActions:
+  - !SendNotificationAction
+    condition: failed
+    receivers: group(TigaseCoreTeam)
 - name: Push to GitHub
   steps:
   - !PushRepository
