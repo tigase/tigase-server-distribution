@@ -231,7 +231,7 @@
 				<include>ca.pjer:logback-awslogs-appender</include>
 				<include>com.amazonaws:aws-java-sdk-logs</include>
 				<include>javax.xml.bind:jaxb-api</include>
-
+				<include>com.unboundid:unboundid-ldapsdk</include>
 
 				<include>tigase:tigase-server-dist</include>
 			</includes>
