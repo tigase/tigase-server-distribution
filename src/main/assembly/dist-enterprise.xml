@@ -201,7 +201,7 @@
 				<include>ch.qos.logback:logback-core</include>
 
 				<!--Mailer extension-->
-				<include>javax.activation:activation</include>
+				<include>jakarta.activation:jakarta.activation-api</include>
 				<include>org.eclipse.angus:jakarta.mail</include>
 
 				<!--BouncyCastle extension-->
