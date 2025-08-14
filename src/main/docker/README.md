@@ -252,20 +252,21 @@ and start the server (adding `-d` option will run it as daemon):
 docker compose up
 ```
 
+> **NOTE**: if you are re-run the server with the updated image you either have to bring it down with `docker compose down` or run the `up` command with `--force-recreate` and `--renew-anon-volumes`; otherwise the contents of the anonymous volume won't be updated and you will be effectively running the same, old version as before
+
 Afterward, please continue in web browser using web installer by opening http://localhost:8080.
 
 
-> **_NOTE_**: on the _"Basic Tigase server configuration"_ screen please select `MySQL` as Database 
-
-> **_NOTE_**: on the _"Database configuration"_ screen please set "Address of the database instance" to `db` 
-
-> **_NOTE_**: on the _"Database configuration"_ screen please set _"Database root user credentials"_ to the ones from `docker-compose.yaml` file
+> **NOTE**:
+> * on the _"Basic Tigase server configuration"_ screen please select `MySQL` as Database 
+> * on the _"Database configuration"_ screen please set "Address of the database instance" to `db` 
+> * on the _"Database configuration"_ screen please set _"Database root user credentials"_ to the ones from `docker-compose.yaml` file
 
 When finished with the setup restart the server - if you started it as stated above just hit ctrl+c and re-run `docker compose up`, otherwise if started as daemon just restart the xmpp service: `docker compose restart xmpp`
 
 #### CoTURN for audio/video calls
 
-> **_NOTE_**: Optional CoTURN server for TURN/STUN can be enabled by enabling `coturn` profile: `--profil coturn`:  
+> **NOTE**: Optional CoTURN server for TURN/STUN can be enabled by enabling `coturn` profile: `--profil coturn`:  
 
 ```shell
 docker compose --profile coturn up
