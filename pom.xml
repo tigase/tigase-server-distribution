@@ -10,7 +10,7 @@
         <license.inlineHeader>${inlineHeader_agpl3}</license.inlineHeader>
         <documentation_phases.all_converters>none</documentation_phases.all_converters>
         <documentation_phases.webhelp>none</documentation_phases.webhelp>
-        <jib.from.image.base>21</jib.from.image.base>
+        <jib.from.image.base>25</jib.from.image.base>
         <jib.from.image>tigase/tigase-xmpp-server-base:${jib.from.image.base}</jib.from.image>
         <jib.to.repository>tigase/tigase-xmpp-server</jib.to.repository>
         <dist-container-dir>${project.build.directory}/_dist-container</dist-container-dir>
