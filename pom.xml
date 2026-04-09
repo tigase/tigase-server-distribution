@@ -425,7 +425,7 @@
         <profile>
             <id>alpine</id>
             <properties>
-                <jib.from.image.base>21-alpine</jib.from.image.base>
+                <jib.from.image.base>25-alpine</jib.from.image.base>
                 <jib.image.tag>nightly-alpine</jib.image.tag>
                 <jib.image.tag-version>${jib.to.repository}:${project.version}-alpine</jib.image.tag-version>
             </properties>
