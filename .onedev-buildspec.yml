@@ -1,18 +1,26 @@
-version: 38
+version: 40
 imports:
 - projectPath: Templates
-  revision: 0.0.5
+  revision: 0.0.8
 jobs:
 - name: Maven CI
+  jobExecutor: linux
   steps:
   - !UseTemplateStep
     name: maven build & deploy
     templateName: Tigase Server - Maven build & deploy
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    paramMatrix:
+    - name: timestamp-to-make-distinct
+      valuesProvider: !ScriptingValues
+        scriptName: getDateTimestamp
+      secret: false
+    condition: SUCCESSFUL
+    optional: false
   - !SetBuildVersionStep
     name: Set build version (for publication)
     buildVersion: '@file:buildVersion@-@file:target/build-version@'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !CommandStep
     name: Publish to S3
     runInContainer: true
@@ -20,12 +28,14 @@ jobs:
     interpreter: !DefaultInterpreter
       commands: "#set -x\nexport AWS_ACCESS_KEY_ID=@secret:tigase.aws.access-key-id@\nexport AWS_SECRET_ACCESS_KEY=@secret:tigase.aws.secret-access-key@\nexport AWS_DEFAULT_REGION=@secret:tigase.aws.default-region@\n\n\nexport DIST_URL_ROOT=s3://build.tigase.net-new\nexport DIST_DIR=${DIST_URL_ROOT}/nightlies/dists\n\nSOURCE_DIR=target/_dist\nCOMPONENT=tigase-server\n\nexport DATE=$(date +%Y-%m-%d)\nVERSION=@file:buildVersion@\n\nls -lah\nls -lah target\n\nBUILD_VERSION=@file:target/build-version@\n\n# Restored original naming convention\naws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n#aws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n\n#git remote update\n#git fetch\n\n#GIT_HEAD=\"$(git rev-parse 'HEAD')\"\n#GIT_ORIGIN_MASTER=\"$(git rev-parse 'origin/master')\"\n#\n#echo \"GIT_HEAD: ${GIT_HEAD}\"\n#echo \"GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}\"\n#\n\n# Let's assume this job will be run only on master branch\n#if [ \"${GIT_HEAD}\" = \"${GIT_ORIGIN_MASTER}\" ] ; then\n\techo \"master build, setting up 'latest' links for nightlies\"\n\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;\n\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");\n\tdone\n#fi\n\n#set +x\n"
     useTTY: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !PublishArtifactStep
     name: Publish artifacts
     sourcePath: target/_dist/
     artifacts: '*'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   triggers:
   - !ScheduleTrigger
     cronExpression: 0 0 1 * * ?
@@ -44,7 +54,8 @@ jobs:
     remoteUrl: https://github.com/tigase/tigase-server-distribution.git
     passwordSecret: access-token
     force: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
@@ -56,19 +67,28 @@ jobs:
     cloneCredential: !DefaultCredential {}
     withLfs: false
     withSubmodules: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !UseTemplateStep
     name: maven build & deploy
     templateName: Tigase Server - Maven build & deploy
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    paramMatrix:
+    - name: timestamp-to-make-distinct
+      valuesProvider: !ScriptingValues
+        scriptName: getDateTimestamp
+      secret: false
+    condition: SUCCESSFUL
+    optional: false
   - !SetBuildVersionStep
     name: Set build version (for publication)
     buildVersion: '@file:buildVersion@-@file:target/build-version@'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !PublishArtifactStep
     name: Publish artifacts
     artifacts: '*'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   triggers:
   - !TagCreateTrigger
     tags: tigase-server*
@@ -83,7 +103,8 @@ jobs:
     cloneCredential: !DefaultCredential {}
     withLfs: false
     withSubmodules: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !CommandStep
     name: detect build version
     runInContainer: true
@@ -94,7 +115,8 @@ jobs:
         echo $(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout) > buildVersion
         echo $(date +%Y-%m-%d) > todaysDate
     useTTY: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !CommandStep
     name: maven build & deploy
     runInContainer: true
@@ -108,11 +130,13 @@ jobs:
         ls -lah
         ls -lah target
     useTTY: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !SetBuildVersionStep
     name: set build version
     buildVersion: '@file:buildVersion@-@file:target/build-version@'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !CommandStep
     name: publish to s3
     runInContainer: true
@@ -120,12 +144,14 @@ jobs:
     interpreter: !DefaultInterpreter
       commands: "#set -x\nexport AWS_ACCESS_KEY_ID=@secret:aws-access-key-id@\nexport AWS_SECRET_ACCESS_KEY=@secret:aws-secret-access-key@\nexport AWS_DEFAULT_REGION=@secret:aws-default-region@\n\n\nexport DIST_URL_ROOT=s3://build.tigase.net-new\nexport DIST_DIR=${DIST_URL_ROOT}/nightlies/dists-1dev\n\nSOURCE_DIR=target/_dist\nCOMPONENT=tigase-server\n\nexport DATE=$(date +%Y-%m-%d)\nVERSION=@file:buildVersion@\n\nls -lah\nls -lah target\n\nBUILD_VERSION=@file:target/build-version@\n\naws s3 cp ${SOURCE_DIR}/ ${DIST_DIR}/${DATE}-${VERSION}-${BUILD_VERSION}/ --recursive --exclude=\"*\" --include=\"${COMPONENT}-*\"\n\ngit remote update\ngit fetch\n\nGIT_HEAD=\"$(git rev-parse 'HEAD')\"\nGIT_ORIGIN_MASTER=\"$(git rev-parse 'origin/master')\"\n\necho \"GIT_HEAD: ${GIT_HEAD}\"\necho \"GIT_ORIGIN_MASTER: ${GIT_ORIGIN_MASTER}\"\n\n\nif [ \"${GIT_HEAD}\" = \"${GIT_ORIGIN_MASTER}\" ] ; then\n\techo \"master build, setting up 'latest' links for nightlies\"\n\tfor file in ${SOURCE_DIR}/${COMPONENT}-*;\n\t\tdo aws s3 cp $file ${DIST_DIR}/latest/$(echo \"$file\" | sed \"s/^.*\\/$COMPONENT-.*b[[:digit:]]*/$COMPONENT/\");\n\tdone\nfi\n\n#set +x\n"
     useTTY: false
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   - !PublishArtifactStep
     name: Publish artifacts
     sourcePath: target/_dist/
     artifacts: '*'
-    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+    condition: SUCCESSFUL
+    optional: false
   retryCondition: never
   maxRetries: 3
   retryDelay: 30
