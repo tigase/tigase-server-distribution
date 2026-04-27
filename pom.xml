@@ -226,6 +226,13 @@
                 <jib.image.tag-version>${jib.to.repository}:${project.version}-alpine</jib.image.tag-version>
             </properties>
         </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <jib.image.tag>nightly-dev</jib.image.tag>
+                <jib.image.tag-version>${jib.to.repository}:${project.version}-dev</jib.image.tag-version>
+            </properties>
+        </profile>
     </profiles>
 
     <build>
