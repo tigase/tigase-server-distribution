@@ -978,6 +978,7 @@
         </dependency>
 
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>tigase</groupId>
             <artifactId>tigase-mongodb</artifactId>
             <version>2.4.0</version>
@@ -1012,18 +1013,21 @@
 
         <!--databases-->
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.15.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
             <version>10.15.2.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyshared</artifactId>
             <version>10.15.2.0</version>
@@ -1047,12 +1051,14 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>10.2.1.jre17</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <!-- TODO: Deprecated! Remove in 9.0.0 -->
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.7.2</version>
