@@ -1,5 +1,3 @@
-> # NOTE: Tigase has new home at [tigase.dev](https://tigase.dev/) - please submit all issues/pull-requests there in the relevant sub-project!
-
 <p align="center">
   <a href="https://tigase.net/">
     <img
@@ -100,9 +98,9 @@ Following features are supported by Tigase XMPP Server:
 When looking for support, please first search for answers to your question in the available online channels:
 
 * Our online documentation: [Tigase Docs](https://docs.tigase.net)
-* Existing issues in relevant project, for Tigase Server it's: [Tigase XMPP Server project tracking issues](https://tigase.dev/tigase/_server/tigase-server/~issues/)
+* Existing issues in relevant project, for Tigase Server it's: [Tigase XMPP Server GitHub issues](https://github.com/tigase/tigase-server/issues)
 
-If you didn't find an answer in the resources above, feel free to submit your question as [new issue](https://tigase.dev/tigase/_server/tigase-server/~issues/) or, if you have valid support subscription, open [new support ticket](https://tigase.net/technical-support).
+If you didn't find an answer in the resources above, feel free to submit your question as new __issue on GitHub__ or, if you have valid support subscription, open [new support ticket](https://tigase.net/technical-support).
 
 # Downloads
 
