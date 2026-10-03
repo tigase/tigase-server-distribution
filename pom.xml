@@ -22,7 +22,7 @@
     </parent>
 
     <artifactId>tigase-server-dist</artifactId>
-    <version>8.4.3-SNAPSHOT</version>
+    <version>8.4.3</version>
 
     <name>Tigase XMPP Server Distribution</name>
 
@@ -59,7 +59,8 @@
         <connection>scm:git:https://github.com/tigase/tigase-server-distribution.git</connection>
         <developerConnection>scm:git:https://github.com/tigase/tigase-server-distribution.git</developerConnection>
         <url>https://github.com/tigase/tigase-server-distribution</url>
-    </scm>
+      <tag>tigase-server-dist-8.4.3</tag>
+  </scm>
 
     <organization>
         <name>"Tigase, Inc."</name>
