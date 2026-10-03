@@ -954,7 +954,7 @@
         <dependency>
             <groupId>tigase</groupId>
             <artifactId>tigase-server</artifactId>
-            <version>8.4.0</version>
+            <version>8.4.1</version>
         </dependency>
         <dependency>
             <groupId>tigase</groupId>
